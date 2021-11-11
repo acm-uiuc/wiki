@@ -1,3 +1,8 @@
+---
+title: Constitution
+draft: false
+---
+
 # The Constitution of the University of Illinois at Urbana-Champaign Student Chapter of the Association for Computing Machinery
 
 This organization shall be called the University of Illinois at Urbana-Champaign Student Chapter of the Association for Computing Machinery herein referred to as ACM@UIUC. All affiliated Special Interest Groups are herein referred to as SIGs. This organization may officially be referred to by any of the following terms:
