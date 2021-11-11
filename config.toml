@@ -1,3 +1,7 @@
 baseURL = 'https://wiki.acm.illinois.edu'
 languageCode = 'en-us'
 title = 'ACM@UIUC Wiki'
+
+[module]
+[[module.imports]]
+path = 'github.com/alex-shpak/hugo-book'
