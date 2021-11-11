@@ -12,9 +12,10 @@
 <title> | ACM@UIUC Wiki</title>
 <link rel=manifest href=/manifest.json>
 <link rel=icon href=/favicon.png type=image/x-icon>
-<link rel=stylesheet href=/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css integrity="sha256-RhgbyTN1upMgJudTs3xA5v+LsWqe93DHi8xmPkV3sbo=" crossorigin=anonymous>
+<link rel=stylesheet href=/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin=anonymous>
 <script defer src=/flexsearch.min.js></script>
 <script defer src=/en.search.min.8ca1e5865bb336926ef7f7338092ae86e25cb2d56c069fb753bc0e4f62ffc888.js integrity="sha256-jKHlhluzNpJu9/czgJKuhuJcstVsBp+3U7wOT2L/yIg=" crossorigin=anonymous></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" crossorigin=anonymous></script>
 <link rel=alternate type=application/rss+xml href=https://wiki.acm.illinois.edu/index.xml title="ACM@UIUC Wiki">
 </head>
 <body dir=ltr>
@@ -25,7 +26,7 @@
 <div class=book-menu-content>
 <nav>
 <h2 class=book-brand>
-<a class="flex align-center" href=/><span>ACM@UIUC Wiki</span>
+<a class="flex align-center" href=/><img src=/logo.png alt=Logo><span>ACM@UIUC Wiki</span>
 </a>
 </h2>
 <div class=book-search>
@@ -57,6 +58,8 @@
 <nav id=TableOfContents></nav>
 </aside>
 </header>
+<a href=https://acm.illinois.edu>ACM@UIUC</a>
+<hr>
 <article class=markdown><h1 id=acmuiuc-wiki>
 ACM@UIUC Wiki
 <a class=anchor href=#acmuiuc-wiki>#</a>
@@ -65,10 +68,25 @@ ACM@UIUC Wiki
 </article>
 <footer class=book-footer>
 <div class="flex flex-wrap justify-between">
+<div><a class="flex align-center" href=https://github.com/acm-uiuc/wiki/commit/1b12cc1c385389d628d3f7f08990cb5696b28da0 title="Last modified by Aidan Glickman | Nov 11, 2021" target=_blank rel=noopener>
+<img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>Nov 11, 2021</span>
+</a>
+</div>
+<div>
+<a class="flex align-center" href=https://github.com/acm-uiuc/wiki/edit/master/content/_index.md target=_blank rel=noopener>
+<img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span>
+</a>
+</div>
 </div>
 <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
 </footer>
 <div class=book-comments>
+<div id=disqus_thread></div>
+<script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return}var b=document,a=b.createElement('script');a.async=!0,a.src='//acm-uiuc-wiki.disqus.com/embed.js',a.setAttribute('data-timestamp',+new Date),(b.head||b.body).appendChild(a)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
 </div>
 <label for=menu-control class="hidden book-menu-overlay"></label>
 </div>
