@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const classes = await getCollection('classes');
+  
+  return classes.map(entry => ({
+    params: { 
+      subject: entry.data.subject,
+      course: `${entry.data.subject}${entry.data.number}`
+    },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const course = entry.data;
+const level = `${Math.floor(course.number / 100)}xx`;
+
+const difficultyColors: Record<string, string> = {
+  'easy': 'bg-green-500',
+  'medium': 'bg-yellow-500',
+  'hard': 'bg-orange-500',
+  'very-hard': 'bg-red-500',
+};
+
+const difficultyLabels: Record<string, string> = {
+  'easy': 'Easy',
+  'medium': 'Medium',
+  'hard': 'Hard',
+  'very-hard': 'Very Hard',
+};
+
+const workloadLabels: Record<string, string> = {
+  'light': '5-8 hrs/week',
+  'moderate': '8-12 hrs/week',
+  'heavy': '12-18 hrs/week',
+  'very-heavy': '18+ hrs/week',
+};
+---
+
+<BaseLayout title={`${course.subject} ${course.number}`}>
+  <div class="prose max-w-none">
+    <nav class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted">
+      <a href="/" class="hover:text-wiki-link">Home</a>
+      <span>/</span>
+      <a href="/classes" class="hover:text-wiki-link">Classes</a>
+      <span>/</span>
+      <a href={`/classes/${course.subject}`} class="hover:text-wiki-link">{course.subject}</a>
+      <span>/</span>
+      <a href={`/classes/${course.subject}/${level}`} class="hover:text-wiki-link">{level}</a>
+      <span>/</span>
+      <span class="text-wiki-text">{course.subject} {course.number}</span>
+    </nav>
+
+    <!-- Course Header -->
+    <div class="not-prose mb-8 rounded-xl border border-wiki-border bg-wiki-surface p-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <span class="font-mono text-sm text-illinois-orange">{course.subject} {course.number}</span>
+          <h1 class="text-3xl font-display font-bold text-wiki-text mt-1">{course.title}</h1>
+          <p class="text-wiki-muted mt-2">{course.credits} Credit Hours</p>
+        </div>
+        <!-- {(course.difficulty || course.workload) && (
+          <div class="flex flex-wrap gap-2">
+            {course.difficulty && (
+              <span class={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ${difficultyColors[course.difficulty]} bg-opacity-20 text-wiki-text`}>
+                <span class={`h-2 w-2 rounded-full ${difficultyColors[course.difficulty]}`}></span>
+                {difficultyLabels[course.difficulty]}
+              </span>
+            )}
+            {course.workload && (
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-wiki-border px-3 py-1.5 text-sm font-medium text-wiki-text">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {workloadLabels[course.workload]}
+              </span>
+            )}
+          </div>
+        )} -->
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="not-prose grid grid-cols-2 sm:grid-cols-2 gap-4 mb-8">
+      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+        <p class="text-2xl font-bold text-wiki-text">{course.credits}</p>
+        <p class="text-xs text-wiki-muted">Credit Hours</p>
+      </div>
+      <!-- <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+        <p class="text-2xl font-bold text-wiki-text">{course.difficulty ? difficultyLabels[course.difficulty] : 'N/A'}</p>
+        <p class="text-xs text-wiki-muted">Difficulty</p>
+      </div>
+      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+        <p class="text-2xl font-bold text-wiki-text">{course.workload ? workloadLabels[course.workload].split(' ')[0] : 'N/A'}</p>
+        <p class="text-xs text-wiki-muted">Hours/Week</p>
+      </div> -->
+      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+        <p class="text-2xl font-bold text-wiki-text">F/S</p>
+        <p class="text-xs text-wiki-muted">Offered</p>
+      </div>
+    </div>
+
+    <!-- Prerequisites -->
+    {course.prerequisites && course.prerequisites.length > 0 && (
+      <div class="not-prose rounded-lg border border-wiki-border bg-wiki-surface p-4 mb-6">
+        <h3 class="font-semibold text-wiki-text mb-2">Prerequisites</h3>
+        <div class="flex flex-wrap gap-2 text-sm">
+          {course.prerequisites.map((prereq: string) => (
+            <span class="rounded bg-wiki-border px-2 py-1 font-mono text-wiki-muted">{prereq}</span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Markdown Content -->
+    <Content />
+
+  </div>
+</BaseLayout>

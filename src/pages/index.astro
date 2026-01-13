@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Welcome">
+  <div class="prose max-w-none">
+    <div class="mb-8">
+      <h1 class="!mt-0 !mb-2">Welcome to the UIUC CS Wiki</h1>
+      <p class="text-wiki-muted text-lg">A student-maintained guide to Computer Science at Illinois</p>
+    </div>
+
+    <div class="not-prose mb-8 rounded-xl border border-wiki-border bg-wiki-surface p-6">
+      <div class="flex items-start gap-4">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-illinois-orange/20">
+          <svg class="h-6 w-6 text-illinois-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-display text-lg font-semibold text-wiki-text">About This Wiki</h3>
+          <p class="mt-1 text-wiki-muted">
+            This wiki is independently maintained by students, for students, as a guide to CS and CS-adjacent courses at UIUC. 
+            We're always looking for contributors to help keep information up-to-date!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Using the Wiki</h2>
+    
+    <div class="not-prose grid gap-4 sm:grid-cols-2 mb-8">
+      <a href="/classes" class="group rounded-xl border border-wiki-border bg-wiki-surface p-5 transition-colors hover:border-illinois-orange/50 hover:bg-wiki-surface/80">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-illinois-orange/20">
+            <svg class="h-5 w-5 text-illinois-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-illinois-orange transition-colors">Classes</h3>
+        </div>
+        <p class="text-sm text-wiki-muted">
+          Detailed information on CS, MATH, and STAT courses including difficulty, workload, and student tips.
+        </p>
+      </a>
+
+      <a href="/resources" class="group rounded-xl border border-wiki-border bg-wiki-surface p-5 transition-colors hover:border-illinois-blue/50 hover:bg-wiki-surface/80">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-illinois-blue/20">
+            <svg class="h-5 w-5 text-illinois-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-illinois-blue transition-colors">Resources</h3>
+        </div>
+        <p class="text-sm text-wiki-muted">
+          Tutoring services, career resources, software tools, and student organizations.
+        </p>
+      </a>
+
+      <a href="/guides" class="group rounded-xl border border-wiki-border bg-wiki-surface p-5 transition-colors hover:border-green-500/50 hover:bg-wiki-surface/80">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/20">
+            <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-green-500 transition-colors">Guides</h3>
+        </div>
+        <p class="text-sm text-wiki-muted">
+          Step-by-step guides for internships, research, grad school, and more.
+        </p>
+      </a>
+
+      <a href="/curriculum" class="group rounded-xl border border-wiki-border bg-wiki-surface p-5 transition-colors hover:border-purple-500/50 hover:bg-wiki-surface/80">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/20">
+            <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+            </svg>
+          </div>
+          <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-purple-500 transition-colors">Curriculum</h3>
+        </div>
+        <p class="text-sm text-wiki-muted">
+          Interactive curriculum graphs and example schedules for different tracks.
+        </p>
+      </a>
+    </div>
+
+    <h2>Who Made This?</h2>
+    <p>
+      This wiki is maintained by UIUC CS students who want to help other students navigate the curriculum. 
+      We accept contributions from any Illinois students and review new content for quality and accuracy before publishing.
+    </p>
+
+    <h2>Contributing</h2>
+    <p>
+      We manage contributions on <a href="https://github.com">GitHub</a>. Please feel free to open a pull request 
+      by following the readme there. You can contribute course reviews, add new guides, or fix any errors you find.
+    </p>
+
+    <div class="not-prose mt-8 rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-5">
+      <div class="flex items-start gap-4">
+        <svg class="h-6 w-6 shrink-0 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div>
+          <h3 class="font-display font-semibold text-yellow-500">Disclaimer</h3>
+          <p class="mt-1 text-sm text-wiki-muted">
+            This wiki contains opinions and experiences from students. Always verify important information 
+            with official university resources and your academic advisor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@source "../**/*.astro";
+@source "../**/*.mdx";
+
+@theme {
+  --color-illinois-orange: #E84A27;
+  --color-illinois-blue: #13294B;
+  --color-wiki-bg: #0d1117;
+  --color-wiki-surface: #161b22;
+  --color-wiki-border: #30363d;
+  --color-wiki-text: #e6edf3;
+  --color-wiki-muted: #8b949e;
+  --color-wiki-link: #58a6ff;
+  
+
+  --font-display: "Montserrat", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}

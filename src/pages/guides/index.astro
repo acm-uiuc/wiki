@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const guides = [
+  {
+    title: 'Freshman Guide',
+    description: 'Everything you need to know as a new CS student at UIUC.',
+    href: '/guides/freshman',
+  },
+];
+---
+
+<BaseLayout title="Guides">
+  <div class="prose max-w-none">
+    <nav class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted">
+      <a href="/" class="hover:text-wiki-link">Home</a>
+      <span>/</span>
+      <span class="text-wiki-text">Guides</span>
+    </nav>
+
+    <div class="mb-8">
+      <h1 class="!mt-0 !mb-2">Guides</h1>
+      <p class="text-wiki-muted text-lg">Step-by-step guides written by students, for students</p>
+    </div>
+
+    <p>
+      These guides are written by students who have gone through the experiences themselves. 
+      They contain practical advice, tips, and resources to help you navigate various aspects of your CS journey at UIUC.
+    </p>
+
+    <div class="not-prose space-y-4 mt-8">
+      {guides.map((guide, index) => (
+        <a 
+          href={guide.href}
+          class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 hover:border-green-500/50 transition-colors group"
+        >
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/20 text-sm font-bold text-green-500">
+                  {index + 1}
+                </span>
+                <h3 class="font-display text-xl font-semibold text-wiki-text group-hover:text-green-500 transition-colors">
+                  {guide.title}
+                </h3>
+              </div>
+              <p class="text-wiki-muted ml-11">{guide.description}</p>
+              {/* <div class="flex gap-2 mt-3 ml-11">
+                {guide.tags.map((tag) => (
+                  <span class="inline-flex items-center rounded-full bg-wiki-border px-2.5 py-0.5 text-xs text-wiki-muted">
+                    {tag}
+                  </span>
+                ))}
+              </div> */}
+            </div>
+            <svg class="h-5 w-5 text-wiki-muted group-hover:text-green-500 transition-colors mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
