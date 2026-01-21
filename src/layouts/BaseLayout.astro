@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import Sidebar from '../components/Sidebar.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
@@ -11,7 +12,7 @@ const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS co
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,6 +22,12 @@ const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS co
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
   <title>{title} | UIUC CS Wiki</title>
+  <!-- Prevent flash of wrong theme -->
+  <script is:inline>
+    const theme = localStorage.getItem('theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (theme === 'dark') document.documentElement.classList.add('dark');
+  </script>
 </head>
 <body class="bg-wiki-bg text-wiki-text antialiased">
   <div class="flex min-h-screen">
@@ -29,82 +36,15 @@ const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS co
 
     <!-- Main Content -->
     <main class="ml-72 flex-1">
-      <div class="mx-auto max-w-4xl px-8 py-12">
+      <!-- Top bar with theme toggle -->
+      <div class="sticky top-0 z-10 flex justify-end border-b border-wiki-border bg-wiki-bg/80 backdrop-blur-sm px-8 py-3">
+        <ThemeToggle />
+      </div>
+      
+      <div class="mx-auto max-w-4xl px-8 py-8">
         <slot />
       </div>
     </main>
   </div>
-
-  <style is:global>
-    @reference "../styles/global.css";
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #30363d;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #484f58;
-    }
-
-    /* Prose styling for markdown content */
-    .prose {
-      @apply text-wiki-text;
-    }
-    .prose h1 {
-      @apply font-display text-4xl font-bold text-wiki-text mb-4 mt-8;
-    }
-    .prose h2 {
-      @apply font-display text-2xl font-bold text-wiki-text mb-3 mt-8 pb-2 border-b border-wiki-border;
-    }
-    .prose h3 {
-      @apply font-display text-xl font-semibold text-wiki-text mb-2 mt-6;
-    }
-    .prose p {
-      @apply text-wiki-text leading-relaxed mb-4;
-    }
-    .prose a {
-      @apply text-wiki-link hover:underline;
-    }
-    .prose ul {
-      @apply list-disc list-inside mb-4 space-y-1;
-    }
-    .prose ol {
-      @apply list-decimal list-inside mb-4 space-y-1;
-    }
-    .prose li {
-      @apply text-wiki-text;
-    }
-    .prose code {
-      @apply font-mono text-sm bg-wiki-surface px-1.5 py-0.5 rounded border border-wiki-border;
-    }
-    .prose pre {
-      @apply font-mono text-sm bg-wiki-surface p-4 rounded-lg border border-wiki-border overflow-x-auto mb-4;
-    }
-    .prose pre code {
-      @apply bg-transparent border-0 p-0;
-    }
-    .prose blockquote {
-      @apply border-l-4 border-illinois-orange pl-4 italic text-wiki-muted my-4;
-    }
-    .prose table {
-      @apply w-full border-collapse mb-4;
-    }
-    .prose th {
-      @apply bg-wiki-surface text-left px-4 py-2 border border-wiki-border font-semibold;
-    }
-    .prose td {
-      @apply px-4 py-2 border border-wiki-border;
-    }
-    .prose hr {
-      @apply border-wiki-border my-8;
-    }
-  </style>
 </body>
 </html>

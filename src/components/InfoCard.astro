@@ -1,0 +1,86 @@
+---
+interface Props {
+  href?: string;
+  title: string;
+  description: string;
+  color?: 'orange' | 'blue' | 'green' | 'purple' | 'yellow';
+}
+
+const { href, title, description, color = 'orange' } = Astro.props;
+
+const colorClasses = {
+  orange: {
+    iconBg: 'bg-illinois-orange/20',
+    iconText: 'text-illinois-orange',
+    hoverBorder: 'hover:border-illinois-orange/50',
+    hoverText: 'group-hover:text-illinois-orange',
+  },
+  blue: {
+    iconBg: 'bg-illinois-blue/20',
+    iconText: 'text-illinois-blue',
+    hoverBorder: 'hover:border-illinois-blue/50',
+    hoverText: 'group-hover:text-illinois-blue',
+  },
+  green: {
+    iconBg: 'bg-green-500/20',
+    iconText: 'text-green-500',
+    hoverBorder: 'hover:border-green-500/50',
+    hoverText: 'group-hover:text-green-500',
+  },
+  purple: {
+    iconBg: 'bg-purple-500/20',
+    iconText: 'text-purple-500',
+    hoverBorder: 'hover:border-purple-500/50',
+    hoverText: 'group-hover:text-purple-500',
+  },
+  yellow: {
+    iconBg: 'bg-yellow-500/20',
+    iconText: 'text-yellow-500',
+    hoverBorder: 'hover:border-yellow-500/50',
+    hoverText: 'group-hover:text-yellow-500',
+  },
+};
+
+const classes = colorClasses[color];
+
+const isLink = !!href;
+---
+
+{isLink ? (
+  <a 
+    href={href} 
+    class:list={[
+      "group rounded-xl border border-wiki-border bg-wiki-surface p-5 transition-colors hover:bg-wiki-surface/80",
+      classes.hoverBorder
+    ]}
+  >
+    <div class="flex items-center gap-3 mb-3">
+      <div class:list={["flex h-10 w-10 shrink-0 items-center justify-center rounded-lg", classes.iconBg]}>
+        <span class:list={["[&>svg]:h-5 [&>svg]:w-5", classes.iconText]}>
+          <slot name="icon" />
+        </span>
+      </div>
+      <h3 class:list={["!m-0 font-display text-lg font-semibold text-wiki-text transition-colors", classes.hoverText]}>
+        {title}
+      </h3>
+    </div>
+    <p class="!m-0 text-sm text-wiki-muted">
+      {description}
+    </p>
+  </a>
+) : (
+  <div class="rounded-xl border border-wiki-border bg-wiki-surface p-6">
+    <div class="flex items-center gap-4 mb-2">
+      <div class:list={["flex h-12 w-12 shrink-0 items-center justify-center rounded-lg", classes.iconBg]}>
+        <span class:list={["[&>svg]:h-6 [&>svg]:w-6", classes.iconText]}>
+          <slot name="icon" />
+        </span>
+      </div>
+      {/* we need the !m-0 because the default style has a horizontally unsymmetrical padding */}
+      <h3 class="!m-0 font-display text-lg font-semibold text-wiki-text">{title}</h3>
+    </div>
+    <p class="!m-0 text-wiki-muted pl-16">
+      {description}
+    </p>
+  </div>
+)}

@@ -18,27 +18,6 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 const course = entry.data;
 const level = `${Math.floor(course.number / 100)}xx`;
-
-const difficultyColors: Record<string, string> = {
-  'easy': 'bg-green-500',
-  'medium': 'bg-yellow-500',
-  'hard': 'bg-orange-500',
-  'very-hard': 'bg-red-500',
-};
-
-const difficultyLabels: Record<string, string> = {
-  'easy': 'Easy',
-  'medium': 'Medium',
-  'hard': 'Hard',
-  'very-hard': 'Very Hard',
-};
-
-const workloadLabels: Record<string, string> = {
-  'light': '5-8 hrs/week',
-  'moderate': '8-12 hrs/week',
-  'heavy': '12-18 hrs/week',
-  'very-heavy': '18+ hrs/week',
-};
 ---
 
 <BaseLayout title={`${course.subject} ${course.number}`}>

@@ -5,9 +5,6 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const guides = await getCollection('guides');
   
-  // Debug: log the slugs
-  console.log('Guide slugs:', guides.map(g => ({ slug: g.slug, id: g.id })));
-  
   return guides.map(guide => ({
     params: { slug: guide.slug },
     props: { guide },

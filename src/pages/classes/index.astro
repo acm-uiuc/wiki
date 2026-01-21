@@ -1,9 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
 
-const allGuides = await getCollection('guides');
-const guides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
 ---
 
 <BaseLayout title="Guides">
@@ -27,7 +25,7 @@ const guides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 
     <div class="not-prose space-y-4 mt-8">
       {guides.map((guide, index) => (
         <a 
-          href={`/guides/${guide.slug}`}
+          href={guide.href}
           class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 hover:border-green-500/50 transition-colors group"
         >
           <div class="flex items-start justify-between">
@@ -37,10 +35,17 @@ const guides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 
                   {index + 1}
                 </span>
                 <h3 class="font-display text-xl font-semibold text-wiki-text group-hover:text-green-500 transition-colors">
-                  {guide.data.title}
+                  {guide.title}
                 </h3>
               </div>
-              <p class="text-wiki-muted ml-11">{guide.data.description}</p>
+              <p class="text-wiki-muted ml-11">{guide.description}</p>
+              {/* <div class="flex gap-2 mt-3 ml-11">
+                {guide.tags.map((tag) => (
+                  <span class="inline-flex items-center rounded-full bg-wiki-border px-2.5 py-0.5 text-xs text-wiki-muted">
+                    {tag}
+                  </span>
+                ))}
+              </div> */}
             </div>
             <svg class="h-5 w-5 text-wiki-muted group-hover:text-green-500 transition-colors mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
