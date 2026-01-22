@@ -24,25 +24,20 @@ const guides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 
       They contain practical advice, tips, and resources to help you navigate various aspects of your CS journey at UIUC.
     </p>
 
-    <div class="not-prose space-y-4 mt-8">
-      {guides.map((guide, index) => (
+    <div class="not-prose space-y-2 mt-8">
+      {guides.map((guide) => (
         <a 
           href={`/guides/${guide.slug}`}
-          class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 hover:border-green-500/50 transition-colors group"
+          class="flex items-center justify-between rounded-lg border border-wiki-border !no-underline bg-wiki-surface p-4 hover:border-wiki-link transition-colors group"
         >
-          <div class="flex items-start justify-between">
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/20 text-sm font-bold text-green-500">
-                  {index + 1}
-                </span>
-                <h3 class="font-display text-xl font-semibold text-wiki-text group-hover:text-green-500 transition-colors">
-                  {guide.data.title}
-                </h3>
-              </div>
-              <p class="text-wiki-muted ml-11">{guide.data.description}</p>
+          <div class="flex items-center gap-4">
+            <div>
+              <span class="font-medium text-wiki-text group-hover:text-wiki-link transition-colors">{guide.data.title}</span>
+              <span class="pl-3 text-sm text-wiki-muted">{guide.data.description}</span>
             </div>
-            <svg class="h-5 w-5 text-wiki-muted group-hover:text-green-500 transition-colors mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          </div>
+          <div class="flex items-center gap-4">
+            <svg class="h-4 w-4 text-wiki-muted group-hover:text-wiki-link transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </div>
