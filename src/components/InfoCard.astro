@@ -1,0 +1,66 @@
+---
+interface Props {
+  href?: string;
+  title: string;
+  description: string;
+  color?: string; // Any CSS color value: hex, rgb, hsl, or CSS variable
+}
+
+const { href, title, description, color = '#E84A27' } = Astro.props;
+
+const isLink = !!href;
+---
+
+<style>
+  .info-card-icon-bg {
+    background-color: color-mix(in srgb, var(--info-card-color) 20%, transparent);
+  }
+  .info-card-icon-text {
+    color: var(--info-card-color);
+  }
+  .info-card-link:hover {
+    border-color: color-mix(in srgb, var(--info-card-color) 50%, transparent);
+  }
+  .info-card-link:hover .info-card-title {
+    color: var(--info-card-color);
+  }
+</style>
+
+{isLink ? (
+  <a 
+    href={href} 
+    class="info-card-link group rounded-xl border border-wiki-border bg-wiki-surface p-5 transition-colors hover:bg-wiki-surface/80"
+    style={`--info-card-color: ${color}`}
+  >
+    <div class="flex items-center gap-3 mb-3">
+      <div class="info-card-icon-bg flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+        <span class="info-card-icon-text [&>svg]:h-5 [&>svg]:w-5">
+          <slot name="icon" />
+        </span>
+      </div>
+      <h3 class="info-card-title !m-0 font-display text-lg font-semibold text-wiki-text transition-colors">
+        {title}
+      </h3>
+    </div>
+    <p class="!m-0 text-sm text-wiki-muted">
+      {description}
+    </p>
+  </a>
+) : (
+  <div 
+    class="rounded-xl border border-wiki-border bg-wiki-surface p-6"
+    style={`--info-card-color: ${color}`}
+  >
+    <div class="flex items-center gap-4 mb-2">
+      <div class="info-card-icon-bg flex h-12 w-12 shrink-0 items-center justify-center rounded-lg">
+        <span class="info-card-icon-text [&>svg]:h-6 [&>svg]:w-6">
+          <slot name="icon" />
+        </span>
+      </div>
+      <h3 class="!m-0 font-display text-lg font-semibold text-wiki-text">{title}</h3>
+    </div>
+    <p class="!m-0 text-wiki-muted pl-16">
+      {description}
+    </p>
+  </div>
+)}

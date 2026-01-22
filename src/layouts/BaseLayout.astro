@@ -1,0 +1,50 @@
+---
+import '../styles/global.css'
+import Sidebar from '../components/Sidebar.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS courses and resources' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.ico?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
+  <title>{title} | UIUC CS Wiki</title>
+  <!-- Prevent flash of wrong theme -->
+  <script is:inline>
+    const theme = localStorage.getItem('theme') || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (theme === 'dark') document.documentElement.classList.add('dark');
+  </script>
+</head>
+<body class="bg-wiki-bg text-wiki-text antialiased">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <Sidebar />
+
+    <!-- Main Content -->
+    <main class="ml-72 flex-1">
+      <!-- Top bar with theme toggle -->
+      <div class="sticky top-0 z-10 flex justify-end border-b border-wiki-border bg-wiki-bg/80 backdrop-blur-sm px-8 py-3">
+        <ThemeToggle />
+      </div>
+      
+      <div class="mx-auto max-w-4xl px-8 py-8">
+        <slot />
+      </div>
+    </main>
+  </div>
+</body>
+</html>

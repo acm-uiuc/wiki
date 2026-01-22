@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SUBJECTS } from '../../../lib/constants.ts';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const classes = await getCollection('classes');
+  
+  // Get unique subjects
+  const subjects = [...new Set(classes.map(c => c.data.subject))];
+  
+  return subjects.map(subject => ({
+    params: { subject },
+    props: { 
+      subjectName: SUBJECTS[subject] || subject,
+      courses: classes.filter(c => c.data.subject === subject)
+    },
+  }));
+}
+
+const { subject } = Astro.params;
+const { subjectName, courses } = Astro.props;
+
+// Group courses by level
+const groupedCourses = courses.reduce((acc: Record<string, typeof courses>, course: typeof courses[0]) => {
+  const level = `${Math.floor(course.data.number / 100)}xx`;
+  if (!acc[level]) acc[level] = [];
+  acc[level].push(course);
+  return acc;
+}, {});
+
+// Sort courses within each level
+Object.keys(groupedCourses).forEach(level => {
+  groupedCourses[level].sort((a: typeof courses[0], b: typeof courses[0]) => a.data.number - b.data.number);
+});
+---
+
+<BaseLayout title={`${subject} Courses`}>
+  <div class="prose max-w-none">
+    <nav class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted">
+      <a href="/" class="hover:text-wiki-link">Home</a>
+      <span>/</span>
+      <a href="/classes" class="hover:text-wiki-link">Classes</a>
+      <span>/</span>
+      <span class="text-wiki-text">{subject}</span>
+    </nav>
+
+    <div class="mb-8">
+      <h1 class="!mt-0 !mb-2">{subject} Courses</h1>
+      <p class="text-wiki-muted text-lg">Browse all {subject} courses offered at UIUC</p>
+    </div>
+
+    {Object.keys(groupedCourses).length === 0 ? (
+      <div class="not-prose rounded-lg border border-wiki-border bg-wiki-surface p-8 text-center">
+        <p class="text-wiki-muted">No courses added yet for {subject}.</p>
+        <a href="/contributing" class="text-wiki-link hover:underline">Learn how to contribute</a>
+      </div>
+    ) : (
+      <>
+        <!-- Level Quick Links -->
+        <div class="not-prose mb-8 flex flex-wrap gap-2">
+          {Object.keys(groupedCourses).sort().map((level) => (
+            <a 
+              href={`/classes/${subject}/${level}`}
+              class="inline-flex items-center gap-2 rounded-lg border border-wiki-border bg-wiki-surface px-4 py-2 text-sm font-medium text-wiki-text hover:border-wiki-link hover:text-wiki-link transition-colors"
+            >
+              {level}
+              <span class="rounded-full bg-wiki-border px-2 py-0.5 text-xs text-wiki-muted">
+                {groupedCourses[level].length}
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <!-- Courses by Level -->
+        {Object.keys(groupedCourses).sort().map((level) => (
+          <div class="mb-8">
+            <h2 id={level}>{level} Courses</h2>
+            <div class="not-prose space-y-2">
+              {groupedCourses[level].map((course: typeof courses[0]) => (
+                <a 
+                  href={`/classes/${subject}/${subject}${course.data.number}`}
+                  class="flex items-center justify-between rounded-lg border border-wiki-border !no-underline bg-wiki-surface p-4 hover:border-wiki-link transition-colors group no-underline"
+                >
+                  <div class="flex items-center gap-4">
+                    {/* <span class={`h-2 w-2 rounded-full ${course.data.difficulty ? difficultyColors[course.data.difficulty] : 'bg-gray-500'}`}></span> */}
+                    <div>
+                      <span class="font-mono text-sm text-illinois-orange transition-colors">{subject} {course.data.number} </span><span class="pl-2 text-wiki-text">{course.data.title}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <span class="text-xs text-wiki-muted">{course.data.credits} credits</span>
+                    <svg class="h-4 w-4 text-wiki-muted group-hover:text-wiki- transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </>
+    )}
+  </div>
+</BaseLayout>
