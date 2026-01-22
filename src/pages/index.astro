@@ -6,7 +6,7 @@ import InfoCard from '../components/InfoCard.astro';
 <BaseLayout title="Welcome">
   <div class="prose max-w-none">
     <div class="mb-8">
-      <h1 class="!mt-0 !mb-2">Welcome to the UIUC CS Wiki</h1>
+      <h1 class="!mt-0 !mb-2">Welcome to the ACM@UIUC Wiki</h1>
       <p class="text-wiki-muted text-lg">A student-maintained guide to Computer Science at Illinois</p>
     </div>
 
@@ -36,16 +36,6 @@ import InfoCard from '../components/InfoCard.astro';
         </svg>
       </InfoCard>
 
-      <InfoCard 
-        href="/resources" 
-        title="Resources" 
-        description="Tutoring services, career resources, software tools, and student organizations."
-        color="blue"
-      >
-        <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-        </svg>
-      </InfoCard>
 
       <InfoCard 
         href="/guides" 
@@ -58,16 +48,6 @@ import InfoCard from '../components/InfoCard.astro';
         </svg>
       </InfoCard>
 
-      <InfoCard 
-        href="/curriculum" 
-        title="Curriculum" 
-        description="Interactive curriculum graphs and example schedules for different tracks."
-        color="purple"
-      >
-        <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-        </svg>
-      </InfoCard>
     </div>
 
     <h2>Who Made This?</h2>
@@ -78,10 +58,18 @@ import InfoCard from '../components/InfoCard.astro';
 
     <h2>Contributing</h2>
     <p>
-      We manage contributions on <a href="https://github.com">GitHub</a>. Please feel free to open a pull request 
+      We manage contributions on <a href="https://github.com/acm-uiuc/wiki">GitHub</a>. Please feel free to open a pull request 
       by following the readme there. You can contribute course reviews, add new guides, or fix any errors you find.
     </p>
 
+    <h2>Other Resources</h2>
+    <p>
+      <a href="https://wiki.hkn.illinois.edu/">HKN Wiki</a>: The fine folks at HKN independently manage their own wiki. Although it primarily focuses on the ECE content, it also contains useful information on some CS courses.       
+    </p>
+    <p>
+      <a href="https://til.acm.illinois.edu/">ACM@UIUC TIL</a>: This is a spirtual predecessor to this wiki, comprising of various short, useful articles on a variety of topics. As of Spring 2026, the TIL is no longer updated or maintained.
+
+    </p>
     <div class="not-prose mt-8">
       <InfoCard 
         title="Disclaimer" 

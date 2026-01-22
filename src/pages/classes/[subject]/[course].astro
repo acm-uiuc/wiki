@@ -29,8 +29,6 @@ const level = `${Math.floor(course.number / 100)}xx`;
       <span>/</span>
       <a href={`/classes/${course.subject}`} class="hover:text-wiki-link">{course.subject}</a>
       <span>/</span>
-      <a href={`/classes/${course.subject}/${level}`} class="hover:text-wiki-link">{level}</a>
-      <span>/</span>
       <span class="text-wiki-text">{course.subject} {course.number}</span>
     </nav>
 
@@ -40,26 +38,7 @@ const level = `${Math.floor(course.number / 100)}xx`;
         <div>
           <span class="font-mono text-sm text-illinois-orange">{course.subject} {course.number}</span>
           <h1 class="text-3xl font-display font-bold text-wiki-text mt-1">{course.title}</h1>
-          <p class="text-wiki-muted mt-2">{course.credits} Credit Hours</p>
         </div>
-        <!-- {(course.difficulty || course.workload) && (
-          <div class="flex flex-wrap gap-2">
-            {course.difficulty && (
-              <span class={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ${difficultyColors[course.difficulty]} bg-opacity-20 text-wiki-text`}>
-                <span class={`h-2 w-2 rounded-full ${difficultyColors[course.difficulty]}`}></span>
-                {difficultyLabels[course.difficulty]}
-              </span>
-            )}
-            {course.workload && (
-              <span class="inline-flex items-center gap-1.5 rounded-full bg-wiki-border px-3 py-1.5 text-sm font-medium text-wiki-text">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {workloadLabels[course.workload]}
-              </span>
-            )}
-          </div>
-        )} -->
       </div>
     </div>
 
@@ -69,14 +48,6 @@ const level = `${Math.floor(course.number / 100)}xx`;
         <p class="text-2xl font-bold text-wiki-text">{course.credits}</p>
         <p class="text-xs text-wiki-muted">Credit Hours</p>
       </div>
-      <!-- <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
-        <p class="text-2xl font-bold text-wiki-text">{course.difficulty ? difficultyLabels[course.difficulty] : 'N/A'}</p>
-        <p class="text-xs text-wiki-muted">Difficulty</p>
-      </div>
-      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
-        <p class="text-2xl font-bold text-wiki-text">{course.workload ? workloadLabels[course.workload].split(' ')[0] : 'N/A'}</p>
-        <p class="text-xs text-wiki-muted">Hours/Week</p>
-      </div> -->
       <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
         <p class="text-2xl font-bold text-wiki-text">F/S</p>
         <p class="text-xs text-wiki-muted">Offered</p>
