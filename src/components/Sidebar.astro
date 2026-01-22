@@ -1,0 +1,242 @@
+---
+import { getCollection } from 'astro:content';
+import { SUBJECTS } from '../lib/constants';
+
+const allClasses = await getCollection('classes');
+const allGuides = await getCollection('guides');
+
+// Group classes by subject, then by level
+const classesNav: Record<string, Record<string, Array<{number: number, title: string, slug: string}>>> = {};
+
+allClasses.forEach(course => {
+  const subj = course.data.subject;
+  const level = `${Math.floor(course.data.number / 100)}xx`;
+  
+  if (!classesNav[subj]) classesNav[subj] = {};
+  if (!classesNav[subj][level]) classesNav[subj][level] = [];
+  
+  classesNav[subj][level].push({
+    number: course.data.number,
+    title: course.data.title,
+    slug: `${subj}${course.data.number}`,
+  });
+});
+
+// Sort courses within each level
+Object.values(classesNav).forEach(levels => {
+  Object.values(levels).forEach(courses => {
+    courses.sort((a, b) => a.number - b.number);
+  });
+});
+
+const sortedGuides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const currentPath = Astro.url.pathname;
+---
+
+<aside class="fixed left-0 top-0 z-40 h-screen w-72 border-r border-wiki-border bg-wiki-surface overflow-y-auto">
+  <div class="flex h-full flex-col">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 border-b border-wiki-border px-6 py-5">
+      <div class="flex h-8 w-8 items-center justify-center rounded-lg text-white font-bold">
+        <img src="/logo.png">
+      </div>
+      <a href="/" class="font-display text-lg font-bold text-wiki-text hover:text-wiki-link transition-colors">
+        ACM@UIUC Wiki
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-4 py-6 space-y-1">
+      <!-- Home -->
+      <a 
+        href="/" 
+        class:list={[
+          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+          currentPath === "/" ? "bg-wiki-border/50 text-wiki-text" : "text-wiki-muted hover:bg-wiki-border/30 hover:text-wiki-text"
+        ]}
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        Home
+      </a>
+
+      <!-- Classes Section -->
+      <div class="pt-4">
+        <div class="nav-section" data-section="classes">
+          <button class="nav-section-toggle flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-wiki-text hover:bg-wiki-border/30 transition-colors">
+            <span class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-illinois-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Classes
+            </span>
+            <svg class="h-4 w-4 transition-transform nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="nav-section-content ml-8 mt-1 space-y-1 border-l border-wiki-border pl-4 hidden">
+            {Object.entries(classesNav).sort().map(([subject, levels]) => (
+              <div class="nav-subsection" data-subsection={subject.toLowerCase()}>
+                <button class="nav-subsection-toggle flex w-full items-center justify-between rounded px-3 py-1.5 text-sm text-wiki-muted hover:bg-wiki-border/30 hover:text-wiki-text transition-colors">
+                  <span>{SUBJECTS[subject]?.name || subject}</span>
+                  <svg class="h-3 w-3 transition-transform nav-chevron-sub" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div class="nav-subsection-content ml-3 mt-1 space-y-0.5 border-l border-wiki-border/50 pl-3 hidden">
+                  <a 
+                    href={`/classes/${subject}`} 
+                    class:list={[
+                      "block rounded px-2 py-1 text-xs transition-colors",
+                      currentPath === `/classes/${subject}` || currentPath === `/classes/${subject}/` 
+                        ? "text-wiki-link" 
+                        : "text-wiki-muted hover:text-wiki-link"
+                    ]}
+                  >
+                    All {subject} Courses
+                  </a>
+                  
+                  {Object.entries(levels).sort().map(([level, courses]) => (
+                    <div class="mt-2">
+                      <span class="block px-2 py-1 text-xs font-medium text-wiki-muted/60">{level}</span>
+                      {courses.map(course => (
+                        <a 
+                          href={`/classes/${subject}/${course.slug}`}
+                          class:list={[
+                            "block rounded px-2 py-1 text-xs transition-colors",
+                            currentPath.includes(course.slug) 
+                              ? "text-wiki-link font-medium" 
+                              : "text-wiki-muted hover:text-wiki-link"
+                          ]}
+                        >
+                          {subject} {course.number}
+                        </a>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Guides Section -->
+      <div class="pt-2">
+        <div class="nav-section" data-section="guides">
+          <button class="nav-section-toggle flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-wiki-text hover:bg-wiki-border/30 transition-colors">
+            <span class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <a href="/guides">Guides</a>
+            </span>
+            <svg class="h-4 w-4 transition-transform nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="nav-section-content ml-8 mt-1 space-y-1 border-l border-wiki-border pl-4 hidden">
+            {sortedGuides.map(guide => (
+              <a 
+                href={`/guides/${guide.slug}`}
+                class:list={[
+                  "block rounded px-3 py-1.5 text-sm transition-colors",
+                  currentPath.includes(`/guides/${guide.slug}`) 
+                    ? "text-wiki-link" 
+                    : "text-wiki-muted hover:text-wiki-link"
+                ]}
+              >
+                {guide.data.title}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!--  add this later -->
+      <!-- Curriculum -->
+      <!-- <div class="pt-2">
+        <a 
+          href="/curriculum" 
+          class:list={[
+            "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+            currentPath.includes("/curriculum") 
+              ? "bg-wiki-border/50 text-wiki-text" 
+              : "text-wiki-muted hover:bg-wiki-border/30 hover:text-wiki-text"
+          ]}
+        >
+          <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+          </svg>
+          Curriculum
+        </a>
+      </div> -->
+
+    </nav>
+
+    <!-- Footer -->
+    <div class="border-t border-wiki-border px-6 py-4">
+      <p class="text-xs text-wiki-muted">Maintained by UIUC CS students</p>
+      <a href="https://github.com/acm-uiuc/wiki" class="mt-2 flex items-center gap-2 text-xs text-wiki-muted hover:text-wiki-link transition-colors">
+        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</aside>
+
+<script>
+  // Toggle navigation sections
+  document.querySelectorAll('.nav-section-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const section = button.closest('.nav-section');
+      const content = section?.querySelector('.nav-section-content');
+      const chevron = button.querySelector('.nav-chevron');
+      
+      if (content) {
+        content.classList.toggle('hidden');
+        chevron?.classList.toggle('rotate-180');
+      }
+    });
+  });
+
+  // Toggle navigation subsections
+  document.querySelectorAll('.nav-subsection-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const subsection = button.closest('.nav-subsection');
+      const content = subsection?.querySelector('.nav-subsection-content');
+      const chevron = button.querySelector('.nav-chevron-sub');
+      
+      if (content) {
+        content.classList.toggle('hidden');
+        chevron?.classList.toggle('rotate-180');
+      }
+    });
+  });
+
+  // Auto-expand current section based on URL
+  const currentPath = window.location.pathname;
+  
+  if (currentPath.includes('/classes')) {
+    const classesSection = document.querySelector('[data-section="classes"]');
+    classesSection?.querySelector('.nav-section-content')?.classList.remove('hidden');
+    classesSection?.querySelector('.nav-chevron')?.classList.add('rotate-180');
+    
+    document.querySelectorAll('.nav-subsection').forEach(subsection => {
+      const subjectKey = subsection.getAttribute('data-subsection')?.toUpperCase();
+      if (subjectKey && currentPath.includes(`/${subjectKey}`)) {
+        subsection.querySelector('.nav-subsection-content')?.classList.remove('hidden');
+        subsection.querySelector('.nav-chevron-sub')?.classList.add('rotate-180');
+      }
+    });
+  }
+  
+  if (currentPath.includes('/guides')) {
+    const guidesSection = document.querySelector('[data-section="guides"]');
+    guidesSection?.querySelector('.nav-section-content')?.classList.remove('hidden');
+    guidesSection?.querySelector('.nav-chevron')?.classList.add('rotate-180');
+  }
+</script>

@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const classes = await getCollection('classes');
+  
+  return classes.map(entry => ({
+    params: { 
+      subject: entry.data.subject,
+      course: `${entry.data.subject}${entry.data.number}`
+    },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const course = entry.data;
+const level = `${Math.floor(course.number / 100)}xx`;
+---
+
+<BaseLayout title={`${course.subject} ${course.number}`}>
+  <div class="prose max-w-none">
+    <nav class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted">
+      <a href="/" class="hover:text-wiki-link">Home</a>
+      <span>/</span>
+      <a href="/classes" class="hover:text-wiki-link">Classes</a>
+      <span>/</span>
+      <a href={`/classes/${course.subject}`} class="hover:text-wiki-link">{course.subject}</a>
+      <span>/</span>
+      <span class="text-wiki-text">{course.subject} {course.number}</span>
+    </nav>
+
+    <!-- Course Header -->
+    <div class="not-prose mb-8 rounded-xl border border-wiki-border bg-wiki-surface p-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <span class="font-mono text-sm text-illinois-orange">{course.subject} {course.number}</span>
+          <h1 class="text-3xl font-display font-bold text-wiki-text mt-1">{course.title}</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="not-prose grid grid-cols-2 sm:grid-cols-2 gap-4 mb-8">
+      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+        <p class="text-2xl font-bold text-wiki-text">{course.credits}</p>
+        <p class="text-xs text-wiki-muted">Credit Hours</p>
+      </div>
+      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+        <p class="text-2xl font-bold text-wiki-text">F/S</p>
+        <p class="text-xs text-wiki-muted">Offered</p>
+      </div>
+    </div>
+
+    <!-- Prerequisites -->
+    {course.prerequisites && course.prerequisites.length > 0 && (
+      <div class="not-prose rounded-lg border border-wiki-border bg-wiki-surface p-4 mb-6">
+        <h3 class="font-semibold text-wiki-text mb-2">Prerequisites</h3>
+        <div class="flex flex-wrap gap-2 text-sm">
+          {course.prerequisites.map((prereq: string) => (
+            <span class="rounded bg-wiki-border px-2 py-1 font-mono text-wiki-muted">{prereq}</span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Markdown Content -->
+    <Content />
+
+  </div>
+</BaseLayout>
