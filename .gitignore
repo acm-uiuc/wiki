@@ -139,6 +139,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 dist/
+build/
 .astro/
 node_modules/
 .DS_Store
