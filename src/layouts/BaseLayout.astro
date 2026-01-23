@@ -6,9 +6,11 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 interface Props {
   title: string;
   description?: string;
+  pageDescription?: string;
+  showTitle?: boolean;
 }
 
-const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS courses and resources' } = Astro.props;
+const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS courses and resources', pageDescription, showTitle = true } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -42,6 +44,12 @@ const { title, description = 'UIUC CS Wiki - A student-maintained guide to CS co
       </div>
       
       <div class="mx-auto max-w-4xl px-8 py-8">
+        {showTitle && (
+          <div class="mb-8">
+            <h1 class="text-4xl font-display font-bold text-wiki-text mb-2">{title}</h1>
+            {pageDescription && <p class="text-lg text-wiki-muted">{pageDescription}</p>}
+          </div>
+        )}
         <slot />
       </div>
     </main>

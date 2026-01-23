@@ -29,7 +29,32 @@ Object.values(classesNav).forEach(levels => {
   });
 });
 
-const sortedGuides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+// Group guides by category
+const guidesNav: Record<string, Array<{slug: string, title: string, order: number}>> = {};
+const uncategorizedGuides: Array<{slug: string, title: string, order: number}> = [];
+
+allGuides.forEach(guide => {
+  const category = guide.data.category;
+  const guideInfo = {
+    slug: guide.slug,
+    title: guide.data.title,
+    order: guide.data.order ?? 99,
+  };
+
+  if (category) {
+    if (!guidesNav[category]) guidesNav[category] = [];
+    guidesNav[category].push(guideInfo);
+  } else {
+    uncategorizedGuides.push(guideInfo);
+  }
+});
+
+// Sort guides within each category by order
+Object.values(guidesNav).forEach(guides => {
+  guides.sort((a, b) => a.order - b.order);
+});
+uncategorizedGuides.sort((a, b) => a.order - b.order);
+
 const currentPath = Astro.url.pathname;
 ---
 
@@ -137,18 +162,50 @@ const currentPath = Astro.url.pathname;
             </svg>
           </button>
           <div class="nav-section-content ml-8 mt-1 space-y-1 border-l border-wiki-border pl-4 hidden">
-            {sortedGuides.map(guide => (
-              <a 
+            {/* Uncategorized guides first */}
+            {uncategorizedGuides.map(guide => (
+              <a
                 href={`/guides/${guide.slug}`}
                 class:list={[
                   "block rounded px-3 py-1.5 text-sm transition-colors",
-                  currentPath.includes(`/guides/${guide.slug}`) 
-                    ? "text-wiki-link" 
+                  currentPath.includes(`/guides/${guide.slug}`)
+                    ? "text-wiki-link"
                     : "text-wiki-muted hover:text-wiki-link"
                 ]}
               >
-                {guide.data.title}
+                {guide.title}
               </a>
+            ))}
+            {/* Categorized guides */}
+            {Object.entries(guidesNav).sort().map(([category, guides]) => (
+              <div class="nav-subsection" data-subsection={`guide-${category.toLowerCase().replace(/\s+/g, '-')}`}>
+                <button class="nav-subsection-toggle flex w-full items-center justify-between rounded px-3 py-1.5 text-sm text-wiki-muted hover:bg-wiki-border/30 hover:text-wiki-text transition-colors">
+                  <span class="flex items-center gap-2">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                    {category}
+                  </span>
+                  <svg class="h-3 w-3 transition-transform nav-chevron-sub" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div class="nav-subsection-content ml-3 mt-1 space-y-0.5 border-l border-wiki-border/50 pl-3 hidden">
+                  {guides.map(guide => (
+                    <a
+                      href={`/guides/${guide.slug}`}
+                      class:list={[
+                        "block rounded px-2 py-1 text-xs transition-colors",
+                        currentPath.includes(`/guides/${guide.slug}`)
+                          ? "text-wiki-link font-medium"
+                          : "text-wiki-muted hover:text-wiki-link"
+                      ]}
+                    >
+                      {guide.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -238,5 +295,16 @@ const currentPath = Astro.url.pathname;
     const guidesSection = document.querySelector('[data-section="guides"]');
     guidesSection?.querySelector('.nav-section-content')?.classList.remove('hidden');
     guidesSection?.querySelector('.nav-chevron')?.classList.add('rotate-180');
+
+    // Auto-expand guide category if current guide is in a category
+    guidesSection?.querySelectorAll('.nav-subsection').forEach(subsection => {
+      const links = subsection.querySelectorAll('a');
+      links.forEach(link => {
+        if (link.getAttribute('href') && currentPath.includes(link.getAttribute('href')!)) {
+          subsection.querySelector('.nav-subsection-content')?.classList.remove('hidden');
+          subsection.querySelector('.nav-chevron-sub')?.classList.add('rotate-180');
+        }
+      });
+    });
   }
 </script>

@@ -22,6 +22,7 @@ const guidesCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     order: z.number().optional().default(0),
+    category: z.string().optional(),
   }),
 });
 
