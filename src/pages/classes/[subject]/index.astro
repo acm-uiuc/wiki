@@ -5,13 +5,13 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const classes = await getCollection('classes');
-  
+
   // Get unique subjects
   const subjects = [...new Set(classes.map(c => c.data.subject))];
-  
+
   return subjects.map(subject => ({
     params: { subject },
-    props: { 
+    props: {
       subjectName: SUBJECTS[subject] || subject,
       courses: classes.filter(c => c.data.subject === subject)
     },
@@ -60,7 +60,7 @@ Object.keys(groupedCourses).forEach(level => {
         <!-- Level Quick Links -->
         <div class="not-prose mb-8 flex flex-wrap gap-2">
           {Object.keys(groupedCourses).sort().map((level) => (
-            <a 
+            <a
               href={`/classes/${subject}/${level}`}
               class="inline-flex items-center gap-2 rounded-lg border border-wiki-border bg-wiki-surface px-4 py-2 text-sm font-medium text-wiki-text hover:border-wiki-link hover:text-wiki-link transition-colors"
             >
@@ -78,14 +78,14 @@ Object.keys(groupedCourses).forEach(level => {
             <h2 id={level}>{level} Courses</h2>
             <div class="not-prose space-y-2">
               {groupedCourses[level].map((course: typeof courses[0]) => (
-                <a 
-                  href={`/classes/${subject}/${subject}${course.data.number}`}
+                <a
+                  href={`/classes/${subject}/${subject}${course.data.number}${course.data.section}`}
                   class="flex items-center justify-between rounded-lg border border-wiki-border !no-underline bg-wiki-surface p-4 hover:border-wiki-link transition-colors group no-underline"
                 >
                   <div class="flex items-center gap-4">
                     {/* <span class={`h-2 w-2 rounded-full ${course.data.difficulty ? difficultyColors[course.data.difficulty] : 'bg-gray-500'}`}></span> */}
                     <div>
-                      <span class="font-mono text-sm text-illinois-orange transition-colors">{subject} {course.data.number} </span><span class="pl-2 text-wiki-text">{course.data.title}</span>
+                        <span class="font-mono text-sm text-illinois-orange transition-colors">{subject} {course.data.number}{course.data.section === "" ? "" : ` ${course.data.section}`}</span><span class="pl-2 text-wiki-text">{course.data.title}</span>
                     </div>
                   </div>
                   <div class="flex items-center gap-4">

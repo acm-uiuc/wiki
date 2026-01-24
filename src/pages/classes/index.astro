@@ -1,53 +1,84 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { SUBJECTS } from "../../lib/constants.ts";
 
-const allGuides = await getCollection('guides');
-const guides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const allClasses = await getCollection("classes");
+
+// Count courses per subject
+const courseCounts = allClasses.reduce((acc: Record<string, number>, course) => {
+  const subject = course.data.subject;
+  acc[subject] = (acc[subject] || 0) + 1;
+  return acc;
+}, {});
 ---
 
-<BaseLayout title="Guides">
-  <div class="prose max-w-none">
-    <nav class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted">
-      <a href="/" class="hover:text-wiki-link">Home</a>
-      <span>/</span>
-      <span class="text-wiki-text">Guides</span>
-    </nav>
-
-    <div class="mb-8">
-      <h1 class="!mt-0 !mb-2">Guides</h1>
-      <p class="text-wiki-muted text-lg">Step-by-step guides written by students, for students</p>
-    </div>
-
-    <p>
-      These guides are written by students who have gone through the experiences themselves. 
-      They contain practical advice, tips, and resources to help you navigate various aspects of your CS journey at UIUC.
-    </p>
-
-    <div class="not-prose space-y-4 mt-8">
-      {guides.map((guide, index) => (
-        <a 
-          href={`/guides/${guide.slug}`}
-          class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 hover:border-green-500/50 transition-colors group"
+<BaseLayout title="Classes">
+    <div class="prose max-w-none">
+        <nav
+            class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted"
         >
-          <div class="flex items-start justify-between">
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-2">
-                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/20 text-sm font-bold text-green-500">
-                  {index + 1}
-                </span>
-                <h3 class="font-display text-xl font-semibold text-wiki-text group-hover:text-green-500 transition-colors">
-                  {guide.data.title}
-                </h3>
-              </div>
-              <p class="text-wiki-muted ml-11">{guide.data.description}</p>
-            </div>
-            <svg class="h-5 w-5 text-wiki-muted group-hover:text-green-500 transition-colors mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </a>
-      ))}
+            <a href="/" class="hover:text-wiki-link">Home</a>
+            <span>/</span>
+            <span class="text-wiki-text">Classes</span>
+        </nav>
+
+        <div class="mb-8">
+            <h1 class="!mt-0 !mb-2">Classes</h1>
+            <p class="text-wiki-muted text-lg">
+                Browse courses by subject area
+            </p>
+        </div>
+
+        <p>
+            Explore course information, reviews, and tips from students who have
+            taken these classes. Select a subject area below to see all available
+            courses.
+        </p>
+
+        <div class="not-prose grid gap-4 mt-8 sm:grid-cols-2">
+            {
+                Object.entries(SUBJECTS).map(([code, subject]) => (
+                    <a
+                        href={`/classes/${code}`}
+                        class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 hover:border-illinois-orange/50 transition-colors group"
+                    >
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-illinois-orange/20 text-sm font-bold text-illinois-orange font-mono">
+                                        {code}
+                                    </span>
+                                    <div>
+                                        <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-illinois-orange transition-colors">
+                                            {subject.name}
+                                        </h3>
+                                        <span class="text-xs text-wiki-muted">
+                                            {courseCounts[code] || 0} {(courseCounts[code] || 0) === 1 ? 'course' : 'courses'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="text-wiki-muted text-sm mt-3">
+                                    {subject.description}
+                                </p>
+                            </div>
+                            <svg
+                                class="h-5 w-5 text-wiki-muted group-hover:text-illinois-orange transition-colors mt-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
     </div>
-  </div>
 </BaseLayout>
