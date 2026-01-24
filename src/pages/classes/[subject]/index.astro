@@ -61,7 +61,7 @@ Object.keys(groupedCourses).forEach(level => {
         <div class="not-prose mb-8 flex flex-wrap gap-2">
           {Object.keys(groupedCourses).sort().map((level) => (
             <a
-              href={`/classes/${subject}/${level}`}
+              href={`/classes/${subject}#${level}`}
               class="inline-flex items-center gap-2 rounded-lg border border-wiki-border bg-wiki-surface px-4 py-2 text-sm font-medium text-wiki-text hover:border-wiki-link hover:text-wiki-link transition-colors"
             >
               {level}
@@ -79,13 +79,13 @@ Object.keys(groupedCourses).forEach(level => {
             <div class="not-prose space-y-2">
               {groupedCourses[level].map((course: typeof courses[0]) => (
                 <a
-                  href={`/classes/${subject}/${subject}${course.data.number}${course.data.section}`}
+                  href={`/classes/${subject}/${subject}${course.data.number}`}
                   class="flex items-center justify-between rounded-lg border border-wiki-border !no-underline bg-wiki-surface p-4 hover:border-wiki-link transition-colors group no-underline"
                 >
                   <div class="flex items-center gap-4">
                     {/* <span class={`h-2 w-2 rounded-full ${course.data.difficulty ? difficultyColors[course.data.difficulty] : 'bg-gray-500'}`}></span> */}
                     <div>
-                        <span class="font-mono text-sm text-illinois-orange transition-colors">{subject} {course.data.number}{course.data.section === "" ? "" : ` ${course.data.section}`}</span><span class="pl-2 text-wiki-text">{course.data.title}</span>
+                      <span class="font-mono text-sm text-illinois-orange transition-colors">{subject} {course.data.number} </span><span class="pl-2 text-wiki-text">{course.data.title}</span>
                     </div>
                   </div>
                   <div class="flex items-center gap-4">
