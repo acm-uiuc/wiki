@@ -6,7 +6,7 @@ const allClasses = await getCollection('classes');
 const allGuides = await getCollection('guides');
 
 // Group classes by subject, then by level
-const classesNav: Record<string, Record<string, Array<{number: number, title: string, slug: string}>>> = {};
+const classesNav: Record<string, Record<string, Array<{number: number, section: string, title: string, slug: string}>>> = {};
 
 allClasses.forEach(course => {
   const subj = course.data.subject;
@@ -17,8 +17,9 @@ allClasses.forEach(course => {
   
   classesNav[subj][level].push({
     number: course.data.number,
+    section: course.data.section,
     title: course.data.title,
-    slug: `${subj}${course.data.number}`,
+    slug: `${subj}${course.data.number}${course.data.section}`,
   });
 });
 
@@ -126,16 +127,16 @@ const currentPath = Astro.url.pathname;
                     <div class="mt-2">
                       <span class="block px-2 py-1 text-xs font-medium text-wiki-muted/60">{level}</span>
                       {courses.map(course => (
-                        <a 
+                        <a
                           href={`/classes/${subject}/${course.slug}`}
                           class:list={[
                             "block rounded px-2 py-1 text-xs transition-colors",
-                            currentPath.includes(course.slug) 
-                              ? "text-wiki-link font-medium" 
+                            currentPath.includes(course.slug)
+                              ? "text-wiki-link font-medium"
                               : "text-wiki-muted hover:text-wiki-link"
                           ]}
                         >
-                          {subject} {course.number}
+                          {subject} {course.number}{course.section ? ` ${course.section}` : ''}
                         </a>
                       ))}
                     </div>
