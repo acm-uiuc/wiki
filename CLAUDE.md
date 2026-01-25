@@ -81,6 +81,7 @@ Uses Tailwind CSS v4 with custom design tokens defined in `src/styles/global.css
    title: "Course Name"
    subject: "CS"
    number: 124
+   section: "CCA" # optional, only used for special topics classes like CS 498 or CS 598
    credits: 3
    description: "Course description"
    prerequisites: ["CS 101"] # optional
@@ -99,6 +100,7 @@ Uses Tailwind CSS v4 with custom design tokens defined in `src/styles/global.css
    title: "Guide Title"
    description: "Guide description"
    order: 1 # optional, controls sidebar ordering
+   category: "tech" # optional, categorizes guides for folder structure on the sidebar
    ---
    ```
 3. Write guide content in markdown below frontmatter
