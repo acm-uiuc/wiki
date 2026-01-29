@@ -59,16 +59,28 @@ uncategorizedGuides.sort((a, b) => a.order - b.order);
 const currentPath = Astro.url.pathname;
 ---
 
-<aside class="fixed left-0 top-0 z-40 h-screen w-72 border-r border-wiki-border bg-wiki-surface overflow-y-auto">
+<!-- Mobile overlay backdrop -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="fixed left-0 top-0 z-40 h-screen w-72 border-r border-wiki-border bg-wiki-surface overflow-y-auto transition-transform -translate-x-full lg:translate-x-0">
   <div class="flex h-full flex-col">
     <!-- Logo -->
-    <div class="flex items-center gap-3 border-b border-wiki-border px-6 py-5">
-      <div class="flex h-8 w-8 items-center justify-center rounded-lg text-white font-bold">
-        <img src="/logo.png">
+    <div class="flex items-center justify-between border-b border-wiki-border px-6 py-5">
+      <div class="flex items-center gap-3">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg text-white font-bold">
+          <img src="/logo.png">
+        </div>
+        <a href="/" class="font-display text-lg font-bold text-wiki-text hover:text-wiki-link transition-colors">
+          ACM@UIUC Wiki
+        </a>
       </div>
-      <a href="/" class="font-display text-lg font-bold text-wiki-text hover:text-wiki-link transition-colors">
-        ACM@UIUC Wiki
-      </a>
+      <!-- Close button for mobile -->
+      <button id="sidebar-close" class="lg:hidden p-2 rounded-lg text-wiki-muted hover:bg-wiki-border/50 hover:text-wiki-text transition-colors">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
 
     <!-- Navigation -->
@@ -247,6 +259,47 @@ const currentPath = Astro.url.pathname;
 </aside>
 
 <script>
+  // Mobile menu toggle
+  function initMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.getElementById('sidebar-close');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+
+    function openSidebar() {
+      sidebar?.classList.remove('-translate-x-full');
+      overlay?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      sidebar?.classList.add('-translate-x-full');
+      overlay?.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    menuBtn?.addEventListener('click', openSidebar);
+    closeBtn?.addEventListener('click', closeSidebar);
+    overlay?.addEventListener('click', closeSidebar);
+
+    // Close sidebar when clicking a link on mobile
+    if (sidebar) {
+      sidebar.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth < 1024) {
+            closeSidebar();
+          }
+        });
+      });
+    }
+  }
+
+  // Initialize on page load
+  initMobileMenu();
+
+  // Re-initialize after navigation (for SPAs/view transitions)
+  document.addEventListener('astro:after-swap', initMobileMenu);
+
   // Toggle navigation sections
   document.querySelectorAll('.nav-section-toggle').forEach(button => {
     button.addEventListener('click', () => {
