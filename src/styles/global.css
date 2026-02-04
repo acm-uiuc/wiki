@@ -59,11 +59,6 @@
   background: var(--color-wiki-muted);
 }
 
-/* ===========================================
-   BASE ELEMENT STYLES (site-wide defaults)
-   These apply everywhere, override with Tailwind classes as needed
-   =========================================== */
-
 @layer base {
   body {
     color: var(--color-wiki-text);
