@@ -59,52 +59,66 @@
   background: var(--color-wiki-muted);
 }
 
-/* Prose styling for markdown content */
+@layer base {
+  body {
+    color: var(--color-wiki-text);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-wiki-text);
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-wiki-text);
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-wiki-border);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-wiki-text);
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  p {
+    color: var(--color-wiki-text);
+    line-height: 1.625;
+    margin-bottom: 1rem;
+  }
+
+  a {
+    color: var(--color-wiki-link);
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ===========================================
+   PROSE STYLES (for rendered markdown only)
+   Inherits base styles, adds markdown-specific styling
+   =========================================== */
+
 .prose {
   color: var(--color-wiki-text);
 }
 
+/* Prose headings - add top margin for better document flow */
 .prose h1 {
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--color-wiki-text);
-  margin-bottom: 1rem;
   margin-top: 2rem;
-}
-
-.prose h2 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-wiki-text);
-  margin-bottom: 0.75rem;
-  margin-top: 2rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-wiki-border);
-}
-
-.prose h3 {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-wiki-text);
-  margin-bottom: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.prose p {
-  color: var(--color-wiki-text);
-  line-height: 1.625;
-  margin-bottom: 1rem;
-}
-
-.prose a {
-  color: var(--color-wiki-link);
-}
-
-.prose a:hover {
-  text-decoration: underline;
 }
 
 .prose ul {
