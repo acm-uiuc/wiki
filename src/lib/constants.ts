@@ -1,3 +1,5 @@
+export const VALID_SUBJECTS = ['CS', 'MATH', 'STAT', 'ECE', 'PHYS'] as const;
+
 export const SUBJECTS: Record<string, { name: string; description: string }> = {
   CS: {
     name: 'Computer Science',

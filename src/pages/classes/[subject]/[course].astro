@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PrerequisiteList from "../../../components/PrerequisiteList.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -43,23 +44,17 @@ const course = entry.data;
       <p class="text-xs text-wiki-muted mb-0">Credit Hours</p>
     </div>
     <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
-      <p class="text-2xl font-bold mb-0">F/S</p>
-      <p class="text-xs text-wiki-muted mb-0">Offered</p>
+      <p class="text-2xl font-bold mb-0">{course.instructor}</p>
+      <p class="text-xs text-wiki-muted mb-0">Instructor</p>
     </div>
   </div>
 
   <!-- Prerequisites -->
   {course.prerequisites && course.prerequisites.length > 0 && (
-    <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 mb-6">
-      <h3 class="mt-0 mb-2 border-0 pb-0">Prerequisites</h3>
-      <div class="flex flex-wrap gap-2 text-sm">
-        {course.prerequisites.map((prereq: string) => (
-          <span class="rounded bg-wiki-border px-2 py-1 font-mono text-wiki-muted">
-            {prereq}
-          </span>
-        ))}
-      </div>
-    </div>
+    <section class="mb-6">
+      <h2>Prerequisites</h2>
+      <PrerequisiteList prerequisites={course.prerequisites} />
+    </section>
   )}
 
   <!-- Markdown Content -->
