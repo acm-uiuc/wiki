@@ -14,7 +14,3 @@
 - [ ] I have tested my changes locally with `yarn dev`
 - [ ] Links and images render correctly
 - [ ] Content follows the [style guidelines](../CONTRIBUTING.md#style-guidelines)
-
-## License Acknowledgment
-
-- [ ] I agree to license my contribution under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) as described in [CONTRIBUTING.md](../CONTRIBUTING.md#license-agreement)
