@@ -62,6 +62,8 @@
 @layer base {
   body {
     color: var(--color-wiki-text);
+    /* Prevent horizontal scroll at page level */
+    overflow-x: hidden;
   }
 
   h1 {
@@ -114,6 +116,12 @@
 
 .prose {
   color: var(--color-wiki-text);
+  /* Prevent content from causing horizontal overflow */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  /* Critical: contain overflow within this element */
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Prose headings - add top margin for better document flow */
@@ -138,6 +146,15 @@
   margin-bottom: 0.25rem;
 }
 
+/* Images - constrain to container width */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  display: block;
+}
+
+/* Inline code - allow wrapping on long strings */
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.875rem;
@@ -145,8 +162,10 @@
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   border: 1px solid var(--color-wiki-border);
+  word-break: break-word;
 }
 
+/* Code blocks - constrain width and allow horizontal scroll */
 .prose pre {
   font-family: var(--font-mono);
   font-size: 0.875rem;
@@ -156,12 +175,16 @@
   border: 1px solid var(--color-wiki-border);
   overflow-x: auto;
   margin-bottom: 1rem;
+  /* Critical for mobile */
+  max-width: 100%;
 }
 
 .prose pre code {
   background: transparent;
   border: 0;
   padding: 0;
+  white-space: pre;
+  word-break: normal;
 }
 
 .prose blockquote {
@@ -176,6 +199,8 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
+  display: block;
+  overflow-x: auto;
 }
 
 .prose th {
