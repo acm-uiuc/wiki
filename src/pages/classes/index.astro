@@ -14,71 +14,65 @@ const courseCounts = allClasses.reduce((acc: Record<string, number>, course) => 
 ---
 
 <BaseLayout title="Classes">
-    <div class="prose max-w-none">
-        <nav
-            class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted"
+  <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
+    <a href="/" class="hover:text-wiki-link">Home</a>
+    <span>/</span>
+    <span class="text-wiki-text">Classes</span>
+  </nav>
+
+  <div class="mb-8">
+    <h1 class="mb-2">Classes</h1>
+    <p class="text-wiki-muted text-lg mb-0">Browse courses by subject area</p>
+  </div>
+
+  <p>
+    Explore course information, reviews, and tips from students who have
+    taken these classes. Select a subject area below to see all available
+    courses.
+  </p>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    {
+      Object.entries(SUBJECTS).map(([code, subject]) => (
+        <a
+          href={`/classes/${code}`}
+          class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 no-underline hover:border-illinois-orange/50 transition-colors group"
         >
-            <a href="/" class="hover:text-wiki-link">Home</a>
-            <span>/</span>
-            <span class="text-wiki-text">Classes</span>
-        </nav>
-
-        <div class="mb-8">
-            <h1 class="!mt-0 !mb-2">Classes</h1>
-            <p class="text-wiki-muted text-lg">
-                Browse courses by subject area
-            </p>
-        </div>
-
-        <p>
-            Explore course information, reviews, and tips from students who have
-            taken these classes. Select a subject area below to see all available
-            courses.
-        </p>
-
-        <div class="not-prose grid gap-4 mt-8 sm:grid-cols-2">
-            {
-                Object.entries(SUBJECTS).map(([code, subject]) => (
-                    <a
-                        href={`/classes/${code}`}
-                        class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 hover:border-illinois-orange/50 transition-colors group"
-                    >
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-illinois-orange/20 text-sm font-bold text-illinois-orange font-mono">
-                                        {code}
-                                    </span>
-                                    <div>
-                                        <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-illinois-orange transition-colors">
-                                            {subject.name}
-                                        </h3>
-                                        <span class="text-xs text-wiki-muted">
-                                            {courseCounts[code] || 0} {(courseCounts[code] || 0) === 1 ? 'course' : 'courses'}
-                                        </span>
-                                    </div>
-                                </div>
-                                <p class="text-wiki-muted text-sm mt-3">
-                                    {subject.description}
-                                </p>
-                            </div>
-                            <svg
-                                class="h-5 w-5 text-wiki-muted group-hover:text-illinois-orange transition-colors mt-2"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 5l7 7-7 7"
-                                />
-                            </svg>
-                        </div>
-                    </a>
-                ))
-            }
-        </div>
-    </div>
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-illinois-orange/20 text-sm font-bold text-illinois-orange font-mono">
+                  {code}
+                </span>
+                <div>
+                  <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-illinois-orange transition-colors mt-0 mb-0 border-0 pb-0">
+                    {subject.name}
+                  </h3>
+                  <span class="text-xs text-wiki-muted">
+                    {courseCounts[code] || 0} {(courseCounts[code] || 0) === 1 ? 'course' : 'courses'}
+                  </span>
+                </div>
+              </div>
+              <p class="text-wiki-muted text-sm mt-3 mb-0">
+                {subject.description}
+              </p>
+            </div>
+            <svg
+              class="h-5 w-5 text-wiki-muted group-hover:text-illinois-orange transition-colors mt-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </div>
+        </a>
+      ))
+    }
+  </div>
 </BaseLayout>

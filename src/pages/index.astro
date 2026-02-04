@@ -4,82 +4,78 @@ import InfoCard from '../components/InfoCard.astro';
 ---
 
 <BaseLayout title="Welcome">
-  <div class="prose max-w-none">
-    <div class="mb-8">
-      <h1 class="!mt-0 !mb-2">Welcome to the ACM@UIUC Wiki</h1>
-      <p class="text-wiki-muted text-lg">A student-maintained guide to Computer Science at Illinois</p>
-    </div>
+  <div class="mb-8">
+    <h1 class="mb-2">Welcome to the ACM@UIUC Wiki</h1>
+    <p class="text-wiki-muted text-lg mb-0">A student-maintained guide to Computer Science at Illinois</p>
+  </div>
 
-    <div class="not-prose mb-8">
-      <InfoCard 
-        title="About This Wiki" 
-        description="This wiki is independently maintained by students, for students, as a guide to CS and CS-adjacent courses at UIUC. We're always looking for contributors to help keep information up-to-date!"
-        color="#E84A27"
-      >
-        <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </InfoCard>
-    </div>
+  <div class="mb-8">
+    <InfoCard 
+      title="About This Wiki" 
+      description="This wiki is independently maintained by students, for students, as a guide to CS and CS-adjacent courses at UIUC. We're always looking for contributors to help keep information up-to-date!"
+      color="#E84A27"
+    >
+      <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </InfoCard>
+  </div>
 
-    <h2>Using the Wiki</h2>
-    
-    <div class="not-prose grid gap-4 sm:grid-cols-2 mb-8">
-      <InfoCard 
-        href="/classes" 
-        title="Classes" 
-        description="Detailed information on CS, MATH, and STAT courses including difficulty, workload, and student tips."
-        color="#E84A27"
-      >
-        <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      </InfoCard>
+  <h2>Using the Wiki</h2>
+  
+  <div class="grid gap-4 sm:grid-cols-2 mb-8">
+    <InfoCard 
+      href="/classes" 
+      title="Classes" 
+      description="Detailed information on CS, MATH, and STAT courses including difficulty, workload, and student tips."
+      color="#E84A27"
+    >
+      <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    </InfoCard>
 
+    <InfoCard 
+      href="/guides" 
+      title="Guides" 
+      description="Step-by-step guides for internships, research, grad school, and more."
+      color="#22c55e"
+    >
+      <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </InfoCard>
+  </div>
 
-      <InfoCard 
-        href="/guides" 
-        title="Guides" 
-        description="Step-by-step guides for internships, research, grad school, and more."
-        color="#22c55e"
-      >
-        <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </InfoCard>
+  <h2>Who Made This?</h2>
+  <p>
+    This wiki is maintained by UIUC CS students who want to help other students navigate the curriculum. 
+    We accept contributions from any Illinois students and review new content for quality and accuracy before publishing.
+  </p>
 
-    </div>
+  <h2>Contributing</h2>
+  <p>
+    We manage contributions on <a href="https://github.com/acm-uiuc/wiki">GitHub</a>. Please feel free to open a pull request 
+    by following the readme there. You can contribute course reviews, add new guides, or fix any errors you find.
+  </p>
 
-    <h2>Who Made This?</h2>
-    <p>
-      This wiki is maintained by UIUC CS students who want to help other students navigate the curriculum. 
-      We accept contributions from any Illinois students and review new content for quality and accuracy before publishing.
-    </p>
+  <h2>Other Resources</h2>
+  <p>
+    <a href="https://wiki.hkn.illinois.edu/">HKN Wiki</a>: The fine folks at HKN independently manage their own wiki. Although it primarily focuses on the ECE content, it also contains useful information on some CS courses.       
+  </p>
+  <p>
+    <a href="https://til.acm.illinois.edu/">ACM@UIUC TIL</a>: This is a spirtual predecessor to this wiki, comprising of various short, useful articles on a variety of topics. As of Spring 2026, the TIL is no longer updated or maintained.
+  </p>
 
-    <h2>Contributing</h2>
-    <p>
-      We manage contributions on <a href="https://github.com/acm-uiuc/wiki">GitHub</a>. Please feel free to open a pull request 
-      by following the readme there. You can contribute course reviews, add new guides, or fix any errors you find.
-    </p>
-
-    <h2>Other Resources</h2>
-    <p>
-      <a href="https://wiki.hkn.illinois.edu/">HKN Wiki</a>: The fine folks at HKN independently manage their own wiki. Although it primarily focuses on the ECE content, it also contains useful information on some CS courses.       
-    </p>
-    <p>
-      <a href="https://til.acm.illinois.edu/">ACM@UIUC TIL</a>: This is a spirtual predecessor to this wiki, comprising of various short, useful articles on a variety of topics. As of Spring 2026, the TIL is no longer updated or maintained.
-
-    </p>
-    <div class="not-prose mt-8">
-      <InfoCard 
-        title="Disclaimer" 
-        description="This wiki contains opinions and experiences from students. Always verify important information with official university resources and your academic advisor."
-        color="#eab308"
-      >
-        <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-      </InfoCard>
-    </div>
+  <div class="mt-8">
+    <InfoCard 
+      title="Disclaimer" 
+      description="This wiki contains opinions and experiences from students. Always verify important information with official university resources and your academic advisor."
+      color="#eab308"
+    >
+      <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </InfoCard>
   </div>
 </BaseLayout>

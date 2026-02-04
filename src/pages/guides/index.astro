@@ -7,42 +7,36 @@ const guides = allGuides.sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 
 ---
 
 <BaseLayout title="Guides">
-  <div class="prose max-w-none">
-    <nav class="not-prose mb-6 flex items-center gap-2 text-sm text-wiki-muted">
-      <a href="/" class="hover:text-wiki-link">Home</a>
-      <span>/</span>
-      <span class="text-wiki-text">Guides</span>
-    </nav>
+  <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
+    <a href="/" class="hover:text-wiki-link">Home</a>
+    <span>/</span>
+    <span class="text-wiki-text">Guides</span>
+  </nav>
 
-    <div class="mb-8">
-      <h1 class="!mt-0 !mb-2">Guides</h1>
-      <p class="text-wiki-muted text-lg">Step-by-step guides written by students, for students</p>
-    </div>
+  <div class="mb-8">
+    <h1 class="mb-2">Guides</h1>
+    <p class="text-wiki-muted text-lg mb-0">Step-by-step guides written by students, for students</p>
+  </div>
 
-    <p>
-      These guides are written by students who have gone through the experiences themselves. 
-      They contain practical advice, tips, and resources to help you navigate various aspects of your CS journey at UIUC.
-    </p>
+  <p>
+    These guides are written by students who have gone through the experiences themselves. 
+    They contain practical advice, tips, and resources to help you navigate various aspects of your CS journey at UIUC.
+  </p>
 
-    <div class="not-prose space-y-2 mt-8">
-      {guides.map((guide) => (
-        <a 
-          href={`/guides/${guide.slug}`}
-          class="flex items-center justify-between rounded-lg border border-wiki-border !no-underline bg-wiki-surface p-4 hover:border-wiki-link transition-colors group"
-        >
-          <div class="flex items-center gap-4">
-            <div>
-              <span class="font-medium text-wiki-text group-hover:text-wiki-link transition-colors">{guide.data.title}</span>
-              <span class="pl-3 text-sm text-wiki-muted">{guide.data.description}</span>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <svg class="h-4 w-4 text-wiki-muted group-hover:text-wiki-link transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </a>
-      ))}
-    </div>
+  <div class="space-y-2">
+    {guides.map((guide) => (
+      <a 
+        href={`/guides/${guide.slug}`}
+        class="flex items-center justify-between rounded-lg border border-wiki-border bg-wiki-surface p-4 no-underline hover:border-wiki-link transition-colors group"
+      >
+        <div>
+          <span class="font-medium text-wiki-text group-hover:text-wiki-link transition-colors">{guide.data.title}</span>
+          <span class="pl-3 text-sm text-wiki-muted">{guide.data.description}</span>
+        </div>
+        <svg class="h-4 w-4 text-wiki-muted group-hover:text-wiki-link transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    ))}
   </div>
 </BaseLayout>
