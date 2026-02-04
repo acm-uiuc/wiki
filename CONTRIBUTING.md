@@ -43,6 +43,7 @@ title: "CS 124 - Intro to Computer Science I"
 subject: "CS"
 number: 124
 credits: 3
+instructor: "Geoffrey Challen"         # optional, primary instructor
 description: "Official course description from the course catalog"
 prerequisites: ["CS 101", "MATH 220"]  # optional, list prerequisite courses
 tags: ["core", "programming"]          # optional, relevant tags
@@ -58,9 +59,33 @@ section: ""                            # optional, for special topics courses
 - `description` - Official course description
 
 **Optional fields:**
-- `prerequisites` - Array of prerequisite course names
+- `instructor` - Primary course instructor
+- `prerequisites` - Array of prerequisite courses (see format below)
 - `tags` - Array of relevant tags (e.g., "core", "theory", "systems")
 - `section` - Section identifier for special topics courses (e.g., "APE" for CS 598 APE)
+
+### Prerequisite Format
+
+Prerequisites support AND/OR logic:
+
+```yaml
+# Simple list - all required (AND)
+prerequisites: ["CS 124", "MATH 241"]
+
+# OR group - one of these required
+prerequisites: [["MATH 257", "MATH 415", "MATH 416"]]
+
+# Mixed: (MATH 257 OR MATH 415) AND CS 225
+prerequisites: [["MATH 257", "MATH 415"], "CS 225"]
+
+# Free-form text (for non-course requirements)
+prerequisites: ["CS 124", "Three years of high school math"]
+```
+
+**Smart Linking**: Course codes automatically become links:
+- Courses with wiki articles → link to the wiki page (orange)
+- Courses without wiki articles → link to Course Explorer (gray with icon)
+- Free-form text → displayed as plain text (no link)
 
 ### Suggested Course Article Sections
 

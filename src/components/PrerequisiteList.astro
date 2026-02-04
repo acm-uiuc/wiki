@@ -1,0 +1,73 @@
+---
+import {
+  parsePrerequisite,
+  buildCourseIndex,
+  getCourseLink,
+  type PrerequisiteItem,
+  type ParsedPrerequisite,
+} from "../lib/prerequisites";
+import PrereqBadge from "./PrereqBadge.astro";
+
+interface Props {
+  prerequisites: PrerequisiteItem[];
+}
+
+const { prerequisites } = Astro.props;
+
+// Build index of existing courses at build time
+const courseIndex = await buildCourseIndex();
+
+// Resolve a single prerequisite string
+function resolvePrereq(prereq: string) {
+  const parsed = parsePrerequisite(prereq);
+  const link = getCourseLink(parsed, courseIndex);
+  return { parsed, link };
+}
+
+// Process prerequisites into a normalized structure
+type ResolvedItem = { parsed: ParsedPrerequisite; link: { url: string; isInternal: boolean } | null };
+type ResolvedGroup = { type: "single"; item: ResolvedItem } | { type: "or"; items: ResolvedItem[] };
+
+const resolvedGroups: ResolvedGroup[] = prerequisites.map((prereq) => {
+  if (Array.isArray(prereq)) {
+    return {
+      type: "or" as const,
+      items: prereq.map(resolvePrereq),
+    };
+  }
+  return {
+    type: "single" as const,
+    item: resolvePrereq(prereq),
+  };
+});
+---
+
+<div class="flex flex-wrap items-center gap-2 text-sm">
+  {resolvedGroups.map((group, groupIndex) => (
+    <>
+      {groupIndex > 0 && (
+        <span class="text-wiki-muted font-medium">and</span>
+      )}
+      {group.type === "single" ? (
+        <PrereqBadge
+          original={group.item.parsed.original}
+          link={group.item.link}
+        />
+      ) : (
+        <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-border bg-wiki-surface/50 px-2 py-1">
+          {group.items.map((item, itemIndex) => (
+            <>
+              {itemIndex > 0 && (
+                <span class="text-wiki-muted text-xs">or</span>
+              )}
+              <PrereqBadge
+                original={item.parsed.original}
+                link={item.link}
+              />
+            </>
+          ))}
+        </span>
+      )}
+    </>
+  ))}
+</div>

@@ -83,13 +83,31 @@ Uses Tailwind CSS v4 with custom design tokens defined in `src/styles/global.css
    number: 124
    section: "CCA" # optional, only used for special topics classes like CS 498 or CS 598
    credits: 3
+   instructor: "Professor Name" # optional
    description: "Course description"
-   prerequisites: ["CS 101"] # optional
+   prerequisites: ["CS 101"] # optional, supports AND/OR logic (see below)
    tags: ["algorithms", "theory"] # optional
    ---
    ```
 3. Write course content in markdown below frontmatter
 4. The course will automatically appear in sidebar navigation and routing
+
+### Prerequisite Format
+
+Prerequisites support AND/OR logic with smart linking:
+
+```yaml
+# Simple list (all required - AND)
+prerequisites: ["CS 124", "MATH 241"]
+
+# OR group (one of these required)
+prerequisites: [["MATH 257", "MATH 415", "MATH 416"]]
+
+# Mixed: (MATH 257 OR MATH 415) AND CS 225 AND "some text"
+prerequisites: [["MATH 257", "MATH 415"], "CS 225", "Three years of algebra"]
+```
+
+**Smart Linking**: Course codes (e.g., "CS 124") automatically link to internal wiki articles if they exist, or to Course Explorer if not. Free-form text (e.g., "Three years of algebra") displays without links. Only subjects in `VALID_SUBJECTS` (CS, MATH, STAT, ECE, PHYS) are recognized as course codes.
 
 ### Adding a Guide
 
@@ -108,6 +126,8 @@ Uses Tailwind CSS v4 with custom design tokens defined in `src/styles/global.css
 ## Key Implementation Details
 
 - **Content Organization**: Classes are grouped by subject in the sidebar, then by level (1xx, 2xx, etc.). The level is calculated as `Math.floor(course.number / 100) + 'xx'`.
+
+- **Prerequisite System** (`src/lib/prerequisites.ts`, `src/components/PrerequisiteList.astro`): Parses prerequisite arrays, detects course codes via regex, and generates smart links. Uses `buildCourseIndex()` at build time to determine which courses have wiki articles.
 
 - **Type Safety**: All content schemas are validated at build time via Zod. The `getCollection()` API provides fully typed content access throughout the codebase.
 

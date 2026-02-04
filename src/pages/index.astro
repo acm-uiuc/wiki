@@ -5,7 +5,7 @@ import InfoCard from '../components/InfoCard.astro';
 
 <BaseLayout title="Welcome">
   <div class="mb-8">
-    <h1 class="mb-2">Welcome to the ACM@UIUC Wiki</h1>
+    <h1 class="mb-2">Welcome to the Illinois CS Wiki</h1>
     <p class="text-wiki-muted text-lg mb-0">A student-maintained guide to Computer Science at Illinois</p>
   </div>
 
@@ -49,10 +49,20 @@ import InfoCard from '../components/InfoCard.astro';
 
   <h2>Who Made This?</h2>
   <p>
-    This wiki is maintained by UIUC CS students who want to help other students navigate the curriculum. 
-    We accept contributions from any Illinois students and review new content for quality and accuracy before publishing.
+    This wiki is maintained by <a href="https://academic.acm.illinois.edu">ACM @ UIUC's Academic Committee</a>, who want to help other students navigate the curriculum. 
+    We accept contributions from any Illinois students and strive to enforce quality and accuracy guidelines for all articles.
   </p>
-
+  <div class="mt-8">
+    <InfoCard 
+      title="Disclaimer" 
+      description="This wiki contains opinions and experiences from students. Always verify important information with official university resources and your academic advisor."
+      color="#eab308"
+    >
+      <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </InfoCard>
+  </div>
   <h2>Contributing</h2>
   <p>
     We manage contributions on <a href="https://github.com/acm-uiuc/wiki">GitHub</a>. Please feel free to open a pull request 
@@ -66,16 +76,4 @@ import InfoCard from '../components/InfoCard.astro';
   <p>
     <a href="https://til.acm.illinois.edu/">ACM@UIUC TIL</a>: This is a spirtual predecessor to this wiki, comprising of various short, useful articles on a variety of topics. As of Spring 2026, the TIL is no longer updated or maintained.
   </p>
-
-  <div class="mt-8">
-    <InfoCard 
-      title="Disclaimer" 
-      description="This wiki contains opinions and experiences from students. Always verify important information with official university resources and your academic advisor."
-      color="#eab308"
-    >
-      <svg slot="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
-    </InfoCard>
-  </div>
 </BaseLayout>
