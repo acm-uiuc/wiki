@@ -1,13 +1,8 @@
 ---
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PrerequisiteList from "../../../components/PrerequisiteList.astro";
 import { getCollection } from "astro:content";
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
 
 export async function getStaticPaths() {
   const classes = await getCollection("classes");
@@ -23,15 +18,10 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await entry.render();
-const parsedDate = remarkPluginFrontmatter.lastModified ? dayjs(remarkPluginFrontmatter.lastModified) : null;
-const formattedDate = parsedDate?.isValid() 
-  ? parsedDate.tz("America/Chicago").format("MMMM DD, YYYY") 
-  : "Unknown";  
-  
 const course = entry.data;
 ---
 
-<BaseLayout title={`${course.subject} ${course.number} ${course.section}`}>
+<BaseLayout title={`${course.subject} ${course.number} ${course.section}`} lastModified={remarkPluginFrontmatter.lastModified}>
   <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
@@ -73,9 +63,4 @@ const course = entry.data;
     <Content />
   </div>
 
-  {formattedDate && (
-    <p class="mt-12 pt-4 border-t border-wiki-border text-sm text-wiki-muted">
-      Last updated: {formattedDate}
-    </p>
-  )}
 </BaseLayout>

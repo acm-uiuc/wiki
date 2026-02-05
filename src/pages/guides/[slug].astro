@@ -14,13 +14,9 @@ export async function getStaticPaths() {
 
 const { guide } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await guide.render();
-const parsedDate = remarkPluginFrontmatter.lastModified ? dayjs(remarkPluginFrontmatter.lastModified) : null;
-const formattedDate = parsedDate?.isValid() 
-  ? parsedDate.tz("America/Chicago").format("MMMM DD, YYYY") 
-  : "Unknown"; 
 ---
 
-<BaseLayout title={guide.data.title}>
+<BaseLayout title={guide.data.title} lastModified={remarkPluginFrontmatter.lastModified}>
   <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
@@ -39,9 +35,4 @@ const formattedDate = parsedDate?.isValid()
   <div class="prose max-w-none">
     <Content />
   </div>
-  {formattedDate && (
-    <p class="mt-12 pt-4 border-t border-wiki-border text-sm text-wiki-muted">
-        Last updated: {formattedDate}
-    </p>
-  )}
 </BaseLayout>
