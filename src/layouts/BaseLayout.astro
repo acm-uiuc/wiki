@@ -103,7 +103,7 @@ const formattedDate = parsedDate?.isValid()
                     }
                     <slot />
 
-                    {formattedDate && (
+                    {parsedDate && (
                       <p class="mt-12 pt-4 border-t border-wiki-border text-sm text-wiki-muted">
                         Last updated: {formattedDate}
                       </p>
