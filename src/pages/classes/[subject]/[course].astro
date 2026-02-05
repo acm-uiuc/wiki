@@ -24,14 +24,10 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await entry.render();
-console.log(remarkPluginFrontmatter.lastModified)
 const parsedDate = remarkPluginFrontmatter.lastModified ? dayjs(remarkPluginFrontmatter.lastModified) : null;
-console.log(parsedDate)
 const formattedDate = parsedDate?.isValid() 
   ? parsedDate.tz("America/Chicago").format("MMMM DD, YYYY") 
   : "Unknown";  
-console.log(formattedDate)
-
   
 const course = entry.data;
 ---
