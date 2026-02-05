@@ -1,13 +1,10 @@
 ---
-import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import "../styles/global.css";
 import Sidebar from "../components/Sidebar.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
 interface Props {
     title: string;
     description?: string;
