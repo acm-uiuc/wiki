@@ -3,7 +3,6 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PrerequisiteList from "../../../components/PrerequisiteList.astro";
 import { getCollection } from "astro:content";
 
-
 export async function getStaticPaths() {
   const classes = await getCollection("classes");
 
