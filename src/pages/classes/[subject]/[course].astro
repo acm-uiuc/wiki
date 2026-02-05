@@ -16,11 +16,11 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, remarkPluginFrontmatter } = await entry.render();
 const course = entry.data;
 ---
 
-<BaseLayout title={`${course.subject} ${course.number} ${course.section}`}>
+<BaseLayout title={`${course.subject} ${course.number} ${course.section}`} lastModified={remarkPluginFrontmatter.lastModified}>
   <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
