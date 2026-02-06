@@ -21,7 +21,7 @@ const guidesCollection = defineCollection({
     type: "content",
     schema: z.object({
         title: z.string(),
-        description: z.string(),
+        description: z.string().optional(),
         order: z.number().optional().default(0),
         category: z.string().optional(),
     }),
