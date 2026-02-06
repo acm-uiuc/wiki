@@ -50,10 +50,13 @@ const course = entry.data;
   </div>
 
   <!-- Prerequisites -->
-  {course.prerequisites && course.prerequisites.length > 0 && (
+  {(course.prerequisites?.length > 0 || course.corequisites?.length > 0) && (
     <section class="mb-6">
       <h2>Prerequisites</h2>
-      <PrerequisiteList prerequisites={course.prerequisites} />
+      <PrerequisiteList 
+        prerequisites={course.prerequisites} 
+        corequisites={course.corequisites} 
+      />
     </section>
   )}
 

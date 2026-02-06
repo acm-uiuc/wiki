@@ -10,64 +10,87 @@ import PrereqBadge from "./PrereqBadge.astro";
 
 interface Props {
   prerequisites: PrerequisiteItem[];
+  corequisites?: PrerequisiteItem[];
 }
 
-const { prerequisites } = Astro.props;
+const { prerequisites, corequisites = [] } = Astro.props;
 
-// Build index of existing courses at build time
 const courseIndex = await buildCourseIndex();
 
-// Resolve a single prerequisite string
 function resolvePrereq(prereq: string) {
   const parsed = parsePrerequisite(prereq);
   const link = getCourseLink(parsed, courseIndex);
   return { parsed, link };
 }
 
-// Process prerequisites into a normalized structure
 type ResolvedItem = { parsed: ParsedPrerequisite; link: { url: string; isInternal: boolean } | null };
 type ResolvedGroup = { type: "single"; item: ResolvedItem } | { type: "or"; items: ResolvedItem[] };
 
-const resolvedGroups: ResolvedGroup[] = prerequisites.map((prereq) => {
-  if (Array.isArray(prereq)) {
-    return {
-      type: "or" as const,
-      items: prereq.map(resolvePrereq),
-    };
-  }
-  return {
-    type: "single" as const,
-    item: resolvePrereq(prereq),
-  };
-});
+function resolveGroups(items: PrerequisiteItem[]): ResolvedGroup[] {
+  return items.map((prereq) => {
+    if (Array.isArray(prereq)) {
+      return { type: "or" as const, items: prereq.map(resolvePrereq) };
+    }
+    return { type: "single" as const, item: resolvePrereq(prereq) };
+  });
+}
+
+const resolvedPrereqs = resolveGroups(prerequisites);
+const resolvedCoreqs = resolveGroups(corequisites);
+const hasBoth = resolvedPrereqs.length > 0 && resolvedCoreqs.length > 0;
 ---
 
 <div class="flex flex-wrap items-center gap-2 text-sm">
-  {resolvedGroups.map((group, groupIndex) => (
+  {resolvedPrereqs.map((group, groupIndex) => (
     <>
       {groupIndex > 0 && (
         <span class="text-wiki-muted font-medium">and</span>
       )}
       {group.type === "single" ? (
-        <PrereqBadge
-          original={group.item.parsed.original}
-          link={group.item.link}
-        />
+        <PrereqBadge original={group.item.parsed.original} link={group.item.link} />
       ) : (
         <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-border bg-wiki-surface/50 px-2 py-1">
           {group.items.map((item, itemIndex) => (
             <>
-              {itemIndex > 0 && (
-                <span class="text-wiki-muted text-xs">or</span>
-              )}
-              <PrereqBadge
-                original={item.parsed.original}
-                link={item.link}
-              />
+              {itemIndex > 0 && <span class="text-wiki-muted text-xs">or</span>}
+              <PrereqBadge original={item.parsed.original} link={item.link} />
             </>
           ))}
         </span>
       )}
     </>
   ))}
+
+  {/* Separator between prereqs and coreqs */}
+  {hasBoth && (
+    <span class="text-wiki-muted font-medium">+</span>
+  )}
+
+  {/* Corequisites with a "concurrent" label */}
+  {resolvedCoreqs.length > 0 && (
+    <>
+      <span class="rounded-full bg-wiki-link/15 px-2 py-0.5 text-xs font-medium text-wiki-link">
+        concurrent
+      </span>
+      {resolvedCoreqs.map((group, groupIndex) => (
+        <>
+          {groupIndex > 0 && (
+            <span class="text-wiki-muted font-medium">and</span>
+          )}
+          {group.type === "single" ? (
+            <PrereqBadge original={group.item.parsed.original} link={group.item.link} variant="coreq" />
+          ) : (
+            <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-link/30 bg-wiki-link/5 px-2 py-1">
+              {group.items.map((item, itemIndex) => (
+                <>
+                  {itemIndex > 0 && <span class="text-wiki-muted text-xs">or</span>}
+                  <PrereqBadge original={item.parsed.original} link={item.link} variant="coreq" />
+                </>
+              ))}
+            </span>
+          )}
+        </>
+      ))}
+    </>
+  )}
 </div>
