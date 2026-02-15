@@ -5,6 +5,7 @@ A student-maintained wiki for CS courses, guides, and resources at the Universit
 ## About
 
 This wiki provides:
+
 - **Course articles** - Student perspectives on CS, Math, Stats, ECE, and Physics courses
 - **Guides** - Helpful tutorials and tips for navigating UIUC
 
@@ -32,9 +33,11 @@ yarn dev
 ## Contributing
 
 We welcome contributions from all UIUC students! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions on:
+
 - Adding course articles
 - Adding guides
 - Writing and style guidelines
+
 ## License
 
 This project is maintained by ACM@UIUC. Code is licensed as defined in [LICENSE.md](LICENSE.md). Content is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).

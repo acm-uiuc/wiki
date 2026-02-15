@@ -25,6 +25,7 @@ Course articles live in `src/content/classes/[SUBJECT]/` as MDX files.
 ### File Location & Naming
 
 Place your file in the appropriate subject folder, with the subject being named as the department code:
+
 - `src/content/classes/CS/` - Computer Science
 - `src/content/classes/MATH/` - Mathematics
 - `src/content/classes/STAT/` - Statistics
@@ -39,19 +40,20 @@ For special sections (like CS 498 topics), include the section: `cs498cca.mdx`.
 
 ```yaml
 ---
-title: "CS 124 - Intro to Computer Science I"
-subject: "CS"
+title: 'CS 124 - Intro to Computer Science I'
+subject: 'CS'
 number: 124
 credits: 3
-instructor: "Geoffrey Challen"         # optional, primary instructor
-description: "Official course description from the course catalog"
-prerequisites: ["CS 101", "MATH 220"]  # optional, list prerequisite courses
-tags: ["core", "programming"]          # optional, relevant tags
-section: ""                            # optional, for special topics courses
+instructor: 'Geoffrey Challen' # optional, primary instructor
+description: 'Official course description from the course catalog'
+prerequisites: ['CS 101', 'MATH 220'] # optional, list prerequisite courses
+tags: ['core', 'programming'] # optional, relevant tags
+section: '' # optional, for special topics courses
 ---
 ```
 
 **Required fields:**
+
 - `title` - Course name, format: "SUBJ NUM - Course Name"
 - `subject` - One of: CS, MATH, STAT, ECE, PHYS
 - `number` - Course number as an integer (e.g., 124, not "124")
@@ -59,6 +61,7 @@ section: ""                            # optional, for special topics courses
 - `description` - Official course description
 
 **Optional fields:**
+
 - `instructor` - Primary course instructor
 - `prerequisites` - Array of prerequisite courses (see format below)
 - `tags` - Array of relevant tags (e.g., "core", "theory", "systems")
@@ -83,6 +86,7 @@ prerequisites: ["CS 124", "Three years of high school math"]
 ```
 
 **Smart Linking**: Course codes automatically become links:
+
 - Courses with wiki articles → link to the wiki page (orange)
 - Courses without wiki articles → link to Course Explorer (gray with icon)
 - Free-form text → displayed as plain text (no link)
@@ -93,28 +97,35 @@ prerequisites: ["CS 124", "Three years of high school math"]
 Brief overview paragraph about the course and what students should expect.
 
 ## Course Content
+
 - Topic 1
 - Topic 2
 - Topic 3
 
 ## Instructors
+
 [Professor Name](link to faculty page)
 
 ## Prerequisites
+
 Explain prerequisites and recommended background.
 
 ## Workload
+
 Describe typical weekly time commitment, assignment types, and exam format.
 
 ## Resources
+
 - [Course Website](url)
 - [Textbook](url)
 - Other helpful resources
 
 ## Tips
+
 Student advice for succeeding in the course.
 
 ## Proficiency Exam
+
 If applicable, information about proficiency exams.
 ```
 
@@ -130,18 +141,20 @@ Place your file in `src/content/guides/` with a descriptive slug: `gmail.mdx`, `
 
 ```yaml
 ---
-title: "Your Guide Title"
-description: "A brief description of what this guide covers"
-order: 1        # optional, controls sidebar ordering (lower = higher)
-category: "Tech"  # optional, for grouping related guides
+title: 'Your Guide Title'
+description: 'A brief description of what this guide covers'
+order: 1 # optional, controls sidebar ordering (lower = higher)
+category: 'Tech' # optional, for grouping related guides
 ---
 ```
 
 **Required fields:**
+
 - `title` - Guide title
 - `description` - Brief description (shown in previews)
 
 **Optional fields:**
+
 - `order` - Number for sidebar ordering (default: 0)
 - `category` - Category name for grouping
 

@@ -1,16 +1,16 @@
-import { execSync } from "child_process";
-import { readFileSync, existsSync } from "fs";
+import { execSync } from 'child_process';
+import { readFileSync, existsSync } from 'fs';
 
 function getIgnoredRevs() {
   try {
-    const ignoreRevsFile = execSync("git config blame.ignoreRevsFile")
+    const ignoreRevsFile = execSync('git config blame.ignoreRevsFile')
       .toString()
       .trim();
     if (!existsSync(ignoreRevsFile)) return [];
-    return readFileSync(ignoreRevsFile, "utf-8")
-      .split("\n")
+    return readFileSync(ignoreRevsFile, 'utf-8')
+      .split('\n')
       .map((line) => line.trim())
-      .filter((line) => line && !line.startsWith("#"));
+      .filter((line) => line && !line.startsWith('#'));
   } catch {
     return [];
   }
@@ -29,19 +29,19 @@ export function remarkModifiedTime() {
       .toString()
       .trim();
 
-    const lines = result.split("\n").filter(Boolean);
+    const lines = result.split('\n').filter(Boolean);
     for (const line of lines) {
-      const [hash, ...dateParts] = line.split(" ");
+      const [hash, ...dateParts] = line.split(' ');
       if (!ignoredRevs.has(hash)) {
-        file.data.astro.frontmatter.lastModified = dateParts.join(" ");
+        file.data.astro.frontmatter.lastModified = dateParts.join(' ');
         return;
       }
     }
 
     // Fallback: use the oldest commit if all are ignored
     if (lines.length > 0) {
-      const [, ...dateParts] = lines[lines.length - 1].split(" ");
-      file.data.astro.frontmatter.lastModified = dateParts.join(" ");
+      const [, ...dateParts] = lines[lines.length - 1].split(' ');
+      file.data.astro.frontmatter.lastModified = dateParts.join(' ');
     }
   };
 }
