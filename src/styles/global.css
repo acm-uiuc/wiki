@@ -1,13 +1,13 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @source "../**/*.astro";
 @source "../**/*.mdx";
 
 /* Light mode (default) */
 :root {
-  --color-illinois-orange: #E84A27;
-  --color-illinois-blue: #13294B;
-  
+  --color-illinois-orange: #e84a27;
+  --color-illinois-blue: #13294b;
+
   --color-wiki-bg: #f8fafc;
   --color-wiki-surface: #ffffff;
   --color-wiki-border: #e2e8f0;
@@ -36,8 +36,8 @@
   --color-wiki-muted: var(--color-wiki-muted);
   --color-wiki-link: var(--color-wiki-link);
 
-  --font-display: "Montserrat", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-display: 'Montserrat', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 /* Scrollbar styling */

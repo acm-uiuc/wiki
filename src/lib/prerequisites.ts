@@ -1,5 +1,5 @@
-import { getCollection } from "astro:content";
-import { VALID_SUBJECTS } from "./constants";
+import { getCollection } from 'astro:content';
+import { VALID_SUBJECTS } from './constants';
 
 // Regex to detect course codes: "CS 124" or "CS 598 APE"
 const COURSE_CODE_REGEX = /^([A-Z]{2,4})\s+(\d{3})(?:\s+([A-Z0-9]{2,4}))?$/i;
@@ -14,7 +14,7 @@ export type Prerequisites = PrerequisiteItem[];
 
 export interface ParsedPrerequisite {
   original: string;
-  type: "course" | "text";
+  type: 'course' | 'text';
   subject?: string;
   number?: number;
   section?: string;
@@ -35,7 +35,7 @@ export function parsePrerequisite(prereq: string): ParsedPrerequisite {
     if (VALID_SUBJECTS.includes(subject)) {
       return {
         original: prereq,
-        type: "course",
+        type: 'course',
         subject,
         number,
         section,
@@ -46,7 +46,7 @@ export function parsePrerequisite(prereq: string): ParsedPrerequisite {
   // Free-form text
   return {
     original: prereq,
-    type: "text",
+    type: 'text',
   };
 }
 
@@ -54,13 +54,13 @@ export function parsePrerequisite(prereq: string): ParsedPrerequisite {
  * Build a Set of existing course slugs from the classes collection
  */
 export async function buildCourseIndex(): Promise<Set<string>> {
-  const classes = await getCollection("classes");
+  const classes = await getCollection('classes');
   const index = new Set<string>();
 
   for (const entry of classes) {
     const { subject, number, section } = entry.data;
     // Slug format: "CS124" or "CS598APE"
-    const slug = `${subject}${number}${section || ""}`;
+    const slug = `${subject}${number}${section || ''}`;
     index.add(slug);
   }
 
@@ -74,11 +74,11 @@ export function getCourseLink(
   parsed: ParsedPrerequisite,
   courseIndex: Set<string>
 ): { url: string; isInternal: boolean } | null {
-  if (parsed.type !== "course" || !parsed.subject || !parsed.number) {
+  if (parsed.type !== 'course' || !parsed.subject || !parsed.number) {
     return null;
   }
 
-  const slug = `${parsed.subject}${parsed.number}${parsed.section || ""}`;
+  const slug = `${parsed.subject}${parsed.number}${parsed.section || ''}`;
 
   if (courseIndex.has(slug)) {
     // Internal wiki article exists

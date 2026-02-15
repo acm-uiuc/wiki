@@ -9,12 +9,12 @@ import compress from 'astro-compress';
 // https://astro.build/config
 export default defineConfig({
   markdown: {
-    remarkPlugins: [remarkModifiedTime]
+    remarkPlugins: [remarkModifiedTime],
   },
-  site: "https://illinoiscs.wiki",
+  site: 'https://illinoiscs.wiki',
   outDir: './build',
   integrations: [mdx(), sitemap(), compress()],
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });
