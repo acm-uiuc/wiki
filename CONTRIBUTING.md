@@ -1,4 +1,4 @@
-# Contributing to the UIUC CS Wiki
+# Contributing to the Illinois CS Wiki
 
 Thanks for your interest in contributing! This wiki is maintained by students for students. Here's how to add content.
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a UIUC CS Wiki built with Astro 5, a static site generator focused on content. The wiki provides student-maintained information about CS courses, guides, and resources at the University of Illinois Urbana-Champaign.
+This is a University of Illinois Urbana-Champaign Computer Scienece program wiki built with Astro 5, a static site generator focused on content. The wiki provides student-maintained information about CS courses, guides, and resources at the University of Illinois Urbana-Champaign.
 
 ## Commands
 

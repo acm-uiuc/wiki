@@ -1,4 +1,4 @@
-# UIUC CS Wiki
+# Illinois CS Wiki
 
 A student-maintained wiki for CS courses, guides, and resources at the University of Illinois Urbana-Champaign. Built and maintained by [ACM@UIUC's Academic Committee](https://academic.acm.illinois.edu).
 
