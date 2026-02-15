@@ -4,6 +4,8 @@ description: "Use Gmail to access your Illinois email instead of Outlook"
 order: 1
 category: "Tech"
 ---
+import { Image } from 'astro:assets';
+import screenshot from '../../img/gsuite_screenshot.png';
 
 By default the University provisions everyone an Outlook inbox for university use. However, with some reconfiguration, you can set it up such that you can use Gmail instead of Outlook for accessing your university email. In this tutorial, replace `<NETID>` with your Illinois NetID (the part before `@illinois.edu`).
 
@@ -23,6 +25,7 @@ Add an exception: To: <NETID>@g.illinois.edu
 Checked: Stop processing more rules.
 ```
 
-![Screenshot of Outlook configuration](/img/gsuite_screenshot.png)
+<Image src={screenshot} alt="Screenshot of Outlook configuration." />
+
 
 Then, click "Save" and exit. From here on out, your Illinois email should now be fully accessible from your Illinois Gmail inbox! A copy of emails recieved to your Illinois Outlook will be retained in Outlook and then transparently forwarded to your Illinois Gmail account.
