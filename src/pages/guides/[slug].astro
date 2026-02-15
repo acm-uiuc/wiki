@@ -1,10 +1,9 @@
 ---
-import dayjs from "dayjs"
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const guides = await getCollection("guides");
+  const guides = await getCollection('guides');
 
   return guides.map((guide) => ({
     params: { slug: guide.slug },
@@ -16,8 +15,13 @@ const { guide } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await guide.render();
 ---
 
-<BaseLayout title={guide.data.title} lastModified={remarkPluginFrontmatter.lastModified}>
-  <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
+<BaseLayout
+  title={guide.data.title}
+  lastModified={remarkPluginFrontmatter.lastModified}
+>
+  <nav
+    class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline"
+  >
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
     <a href="/guides" class="hover:text-wiki-link">Guides</a>
@@ -27,9 +31,11 @@ const { Content, remarkPluginFrontmatter } = await guide.render();
 
   <div class="mb-8">
     <h1 class="mb-2">{guide.data.title}</h1>
-    {guide.data.description && (
-      <p class="text-wiki-muted text-lg mb-0">{guide.data.description}</p>
-    )}
+    {
+      guide.data.description && (
+        <p class="text-wiki-muted text-lg mb-0">{guide.data.description}</p>
+      )
+    }
   </div>
 
   <div class="prose max-w-none">

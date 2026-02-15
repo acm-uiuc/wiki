@@ -1,129 +1,126 @@
 ---
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-import "../styles/global.css";
-import Sidebar from "../components/Sidebar.astro";
-import ThemeToggle from "../components/ThemeToggle.astro";
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import '../styles/global.css';
+import Sidebar from '../components/Sidebar.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface Props {
-    title: string;
-    description?: string;
-    pageDescription?: string;
-    showTitle?: boolean;
-    lastModified?: string;
+  title: string;
+  description?: string;
+  pageDescription?: string;
+  showTitle?: boolean;
+  lastModified?: string;
 }
 
 const {
-    title,
-    description = "Illinois CS Wiki - A student-maintained guide to CS courses and resources",
-    pageDescription,
-    showTitle = false,
-    lastModified,
+  title,
+  description = 'Illinois CS Wiki - A student-maintained guide to CS courses and resources',
+  pageDescription,
+  showTitle = false,
+  lastModified,
 } = Astro.props;
 
 const parsedDate = lastModified ? dayjs(lastModified) : null;
-const formattedDate = parsedDate?.isValid() 
-  ? parsedDate.tz("America/Chicago").format("MMMM DD, YYYY") 
-  : "Unknown";
+const formattedDate = parsedDate?.isValid()
+  ? parsedDate.tz('America/Chicago').format('MMMM DD, YYYY')
+  : 'Unknown';
 ---
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content={description} />
-        <meta property="og:title" content={`${title} | Illinois CS Wiki`} />
-        <meta property="og:description" content={description} />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="sitemap" href="/sitemap-index.xml" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap"
-            rel="stylesheet"
-        />
-        <title>{title} | Illinois CS Wiki</title>
-        <!-- Prevent flash of wrong theme -->
-        <script is:inline>
-            const theme =
-                localStorage.getItem("theme") ||
-                (window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "dark"
-                    : "light");
-            if (theme === "dark")
-                document.documentElement.classList.add("dark");
-        </script>
-    </head>
-    <body class="bg-wiki-bg text-wiki-text antialiased">
-        <div class="flex min-h-screen">
-            <!-- Sidebar -->
-            <Sidebar />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={`${title} | Illinois CS Wiki`} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} | Illinois CS Wiki</title>
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      const theme =
+        localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light');
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+    </script>
+  </head>
+  <body class="bg-wiki-bg text-wiki-text antialiased">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <Sidebar />
 
-            <!-- Main Content -->
-            <main class="flex-1 lg:ml-72 min-w-0">
-                <!-- Top bar with menu button and theme toggle -->
-                <div
-                    class="sticky top-0 z-10 flex justify-between items-center border-b border-wiki-border bg-wiki-bg/80 backdrop-blur-sm px-4 lg:px-8 py-3"
-                >
-                    <!-- Mobile menu button -->
-                    <button
-                        id="mobile-menu-btn"
-                        type="button"
-                        class="lg:hidden rounded-lg p-2 text-wiki-muted hover:bg-wiki-border/50 hover:text-wiki-text transition-colors"
-                        aria-label="Open menu"
-                    >
-                        <svg
-                            class="h-6 w-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
+      <!-- Main Content -->
+      <main class="flex-1 lg:ml-72 min-w-0">
+        <!-- Top bar with menu button and theme toggle -->
+        <div
+          class="sticky top-0 z-10 flex justify-between items-center border-b border-wiki-border bg-wiki-bg/80 backdrop-blur-sm px-4 lg:px-8 py-3"
+        >
+          <!-- Mobile menu button -->
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            class="lg:hidden rounded-lg p-2 text-wiki-muted hover:bg-wiki-border/50 hover:text-wiki-text transition-colors"
+            aria-label="Open menu"
+          >
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
 
-                    <!-- Spacer for desktop -->
-                    <div class="hidden lg:block"></div>
+          <!-- Spacer for desktop -->
+          <div class="hidden lg:block"></div>
 
-                    <!-- Theme toggle -->
-                    <ThemeToggle />
-                </div>
-
-                <div
-                    class="mx-auto max-w-4xl px-4 lg:px-8 py-8 overflow-x-hidden"
-                >
-                    {
-                        showTitle && (
-                            <div class="mb-8">
-                                <h1 class="text-4xl font-display font-bold text-wiki-text mb-2">
-                                    {title}
-                                </h1>
-                                {pageDescription && (
-                                    <p class="text-lg text-wiki-muted">
-                                        {pageDescription}
-                                    </p>
-                                )}
-                            </div>
-                        )
-                    }
-                    <slot />
-
-                    {parsedDate && (
-                      <p class="mt-12 pt-4 border-t border-wiki-border text-sm text-wiki-muted">
-                        Last updated: {formattedDate}
-                      </p>
-                    )}
-                </div>
-            </main>
+          <!-- Theme toggle -->
+          <ThemeToggle />
         </div>
-    </body>
+
+        <div class="mx-auto max-w-4xl px-4 lg:px-8 py-8 overflow-x-hidden">
+          {
+            showTitle && (
+              <div class="mb-8">
+                <h1 class="text-4xl font-display font-bold text-wiki-text mb-2">
+                  {title}
+                </h1>
+                {pageDescription && (
+                  <p class="text-lg text-wiki-muted">{pageDescription}</p>
+                )}
+              </div>
+            )
+          }
+          <slot />
+
+          {
+            parsedDate && (
+              <p class="mt-12 pt-4 border-t border-wiki-border text-sm text-wiki-muted">
+                Last updated: {formattedDate}
+              </p>
+            )
+          }
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

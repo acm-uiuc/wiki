@@ -9,6 +9,7 @@ This is a University of Illinois Urbana-Champaign Computer Scienece program wiki
 ## Commands
 
 ### Development
+
 ```bash
 yarn dev          # Start development server (default port 4321)
 yarn build        # Build for production
@@ -17,6 +18,7 @@ yarn astro        # Run Astro CLI commands
 ```
 
 ### Common Astro Commands
+
 ```bash
 yarn astro add        # Add an integration
 yarn astro check      # Type-check Astro files
@@ -78,15 +80,15 @@ Uses Tailwind CSS v4 with custom design tokens defined in `src/styles/global.css
 2. Include required frontmatter:
    ```yaml
    ---
-   title: "Course Name"
-   subject: "CS"
+   title: 'Course Name'
+   subject: 'CS'
    number: 124
-   section: "CCA" # optional, only used for special topics classes like CS 498 or CS 598
+   section: 'CCA' # optional, only used for special topics classes like CS 498 or CS 598
    credits: 3
-   instructor: "Professor Name" # optional
-   description: "Course description"
-   prerequisites: ["CS 101"] # optional, supports AND/OR logic (see below)
-   tags: ["algorithms", "theory"] # optional
+   instructor: 'Professor Name' # optional
+   description: 'Course description'
+   prerequisites: ['CS 101'] # optional, supports AND/OR logic (see below)
+   tags: ['algorithms', 'theory'] # optional
    ---
    ```
 3. Write course content in markdown below frontmatter
@@ -115,10 +117,10 @@ prerequisites: [["MATH 257", "MATH 415"], "CS 225", "Three years of algebra"]
 2. Include required frontmatter:
    ```yaml
    ---
-   title: "Guide Title"
-   description: "Guide description"
+   title: 'Guide Title'
+   description: 'Guide description'
    order: 1 # optional, controls sidebar ordering
-   category: "tech" # optional, categorizes guides for folder structure on the sidebar
+   category: 'tech' # optional, categorizes guides for folder structure on the sidebar
    ---
    ```
 3. Write guide content in markdown below frontmatter
