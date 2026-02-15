@@ -37,7 +37,6 @@
     "@astrojs/mdx": "^4.3.13",
     "@eslint/js": "^10.0.1",
     "@typescript-eslint/parser": "^8.54.0",
-    "astro": "^5.17.1",
     "astro-eslint-parser": "^1.2.2",
     "astro-icon": "^1.1.5",
     "eslint": "^10.0.0",
