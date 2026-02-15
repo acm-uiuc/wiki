@@ -1,4 +1,5 @@
 ---
+import dayjs from "dayjs"
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
@@ -12,10 +13,10 @@ export async function getStaticPaths() {
 }
 
 const { guide } = Astro.props;
-const { Content } = await guide.render();
+const { Content, remarkPluginFrontmatter } = await guide.render();
 ---
 
-<BaseLayout title={guide.data.title}>
+<BaseLayout title={guide.data.title} lastModified={remarkPluginFrontmatter.lastModified}>
   <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
