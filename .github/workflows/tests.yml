@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# To finish configuring this workflow, ask the Infra Chairs to grant your repository
+# access to the "PAGES_API_TOKEN" org secret. Next, have them create a project in Cloudflare
+# Pages and set the repository variable "CLOUDFLARE_PROJECT_NAME" to that ID.
+name: 'Testing'
+on:
+  pull_request:
+    branches:
+      - 'main'
+jobs:
+  check_format:
+    name: Check codebase formatting
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'yarn'
+      - name: Restore Yarn Cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: yarn-modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-dev
+          restore-keys: |
+            yarn-modules-${{ runner.arch }}-${{ runner.os }}-
+      - name: Install dependencies
+        run: yarn -D --frozen-lockfile
+      - name: Check codebase formatting
+        run: yarn format:check
+        env:
+          VITE_RUN_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
