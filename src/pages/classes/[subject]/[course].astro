@@ -1,10 +1,10 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PrerequisiteList from "../../../components/PrerequisiteList.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PrerequisiteList from '../../../components/PrerequisiteList.astro';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const classes = await getCollection("classes");
+  const classes = await getCollection('classes');
 
   return classes.map((entry) => ({
     params: {
@@ -16,49 +16,63 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, remarkPluginFrontmatter } = await entry.render();
 const course = entry.data;
 ---
 
-<BaseLayout title={`${course.subject} ${course.number} ${course.section}`}>
-  <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
+<BaseLayout
+  title={`${course.subject} ${course.number} ${course.section}`}
+  lastModified={remarkPluginFrontmatter.lastModified}
+>
+  <nav
+    class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline"
+  >
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
     <a href="/classes" class="hover:text-wiki-link">Classes</a>
     <span>/</span>
-    <a href={`/classes/${course.subject}`} class="hover:text-wiki-link">{course.subject}</a>
+    <a href={`/classes/${course.subject}`} class="hover:text-wiki-link"
+      >{course.subject}</a
+    >
     <span>/</span>
-    <span class="text-wiki-text">{course.subject} {course.number} {course.section}</span>
+    <span class="text-wiki-text"
+      >{course.subject} {course.number} {course.section}</span
+    >
   </nav>
 
   <!-- Course Header -->
   <div class="mb-8 rounded-xl border border-wiki-border bg-wiki-surface p-6">
-    <span class="font-mono text-sm text-illinois-orange">{course.subject} {course.number}</span>
+    <span class="font-mono text-sm text-illinois-orange"
+      >{course.subject} {course.number}</span
+    >
     <h1 class="mt-1 mb-0">{course.title}</h1>
   </div>
 
   <!-- Quick Stats -->
   <div class="grid grid-cols-2 gap-4 mb-8">
-    <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+    <div
+      class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center"
+    >
       <p class="text-2xl font-bold mb-0">{course.credits}</p>
       <p class="text-xs text-wiki-muted mb-0">Credit Hours</p>
     </div>
-    <div class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center">
+    <div
+      class="rounded-lg border border-wiki-border bg-wiki-surface p-4 text-center"
+    >
       <p class="text-2xl font-bold mb-0">{course.instructor}</p>
       <p class="text-xs text-wiki-muted mb-0">Instructor</p>
     </div>
   </div>
 
   <!-- Prerequisites -->
-  {(course.prerequisites?.length > 0 || course.corequisites?.length > 0) && (
-    <section class="mb-6">
-      <h2>Prerequisites</h2>
-      <PrerequisiteList 
-        prerequisites={course.prerequisites} 
-        corequisites={course.corequisites} 
-      />
-    </section>
-  )}
+  {
+    course.prerequisites && course.prerequisites.length > 0 && (
+      <section class="mb-6">
+        <h2>Prerequisites</h2>
+        <PrerequisiteList prerequisites={course.prerequisites} />
+      </section>
+    )
+  }
 
   <!-- Markdown Content -->
   <div class="prose max-w-none">
