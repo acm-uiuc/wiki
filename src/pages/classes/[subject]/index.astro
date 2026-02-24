@@ -5,36 +5,44 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const classes = await getCollection('classes');
-  const subjects = [...new Set(classes.map(c => c.data.subject))];
+  const subjects = [...new Set(classes.map((c) => c.data.subject))];
 
-  return subjects.map(subject => ({
+  return subjects.map((subject) => ({
     params: { subject },
     props: {
       subjectName: SUBJECTS[subject] || subject,
-      courses: classes.filter(c => c.data.subject === subject)
+      courses: classes.filter((c) => c.data.subject === subject),
     },
   }));
 }
 
 const { subject } = Astro.params;
-const { subjectName, courses } = Astro.props;
+const { courses } = Astro.props;
 
 // Group courses by level
-const groupedCourses = courses.reduce((acc: Record<string, typeof courses>, course: typeof courses[0]) => {
-  const level = `${Math.floor(course.data.number / 100)}xx`;
-  if (!acc[level]) acc[level] = [];
-  acc[level].push(course);
-  return acc;
-}, {});
+const groupedCourses = courses.reduce(
+  (acc: Record<string, typeof courses>, course: (typeof courses)[0]) => {
+    const level = `${Math.floor(course.data.number / 100)}xx`;
+    if (!acc[level]) acc[level] = [];
+    acc[level].push(course);
+    return acc;
+  },
+  {}
+);
 
 // Sort courses within each level
-Object.keys(groupedCourses).forEach(level => {
-  groupedCourses[level].sort((a: typeof courses[0], b: typeof courses[0]) => a.data.number - b.data.number);
+Object.keys(groupedCourses).forEach((level) => {
+  groupedCourses[level].sort(
+    (a: (typeof courses)[0], b: (typeof courses)[0]) =>
+      a.data.number - b.data.number
+  );
 });
 ---
 
 <BaseLayout title={`${subject} Courses`}>
-  <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
+  <nav
+    class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline"
+  >
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
     <a href="/classes" class="hover:text-wiki-link">Classes</a>
@@ -44,58 +52,82 @@ Object.keys(groupedCourses).forEach(level => {
 
   <div class="mb-8">
     <h1 class="mb-2">{subject} Courses</h1>
-    <p class="text-wiki-muted text-lg mb-0">Browse all {subject} courses offered at UIUC</p>
+    <p class="text-wiki-muted text-lg mb-0">
+      Browse all {subject} courses offered at UIUC
+    </p>
   </div>
 
-  {Object.keys(groupedCourses).length === 0 ? (
-    <div class="rounded-lg border border-wiki-border bg-wiki-surface p-8 text-center">
-      <p class="text-wiki-muted">No courses added yet for {subject}.</p>
-      <a href="/contributing">Learn how to contribute</a>
-    </div>
-  ) : (
-    <>
-      <!-- Level Quick Links -->
-      <div class="mb-8 flex flex-wrap gap-2">
-        {Object.keys(groupedCourses).sort().map((level) => (
-          <a
-            href={`/classes/${subject}#${level}`}
-            class="inline-flex items-center gap-2 rounded-lg border border-wiki-border bg-wiki-surface px-4 py-2 text-sm font-medium text-wiki-text no-underline hover:border-wiki-link hover:text-wiki-link transition-colors"
-          >
-            {level}
-            <span class="rounded-full bg-wiki-border px-2 py-0.5 text-xs text-wiki-muted">
-              {groupedCourses[level].length}
-            </span>
-          </a>
-        ))}
+  {
+    Object.keys(groupedCourses).length === 0 ? (
+      <div class="rounded-lg border border-wiki-border bg-wiki-surface p-8 text-center">
+        <p class="text-wiki-muted">No courses added yet for {subject}.</p>
+        <a href="/contributing">Learn how to contribute</a>
       </div>
-
-      <!-- Courses by Level -->
-      {Object.keys(groupedCourses).sort().map((level) => (
-        <div class="mb-8">
-          <h2 id={level}>{level} Courses</h2>
-          <div class="space-y-2">
-            {groupedCourses[level].map((course: typeof courses[0]) => (
+    ) : (
+      <>
+        {/* Level Quick Links */}
+        <div class="mb-8 flex flex-wrap gap-2">
+          {Object.keys(groupedCourses)
+            .sort()
+            .map((level) => (
               <a
-                href={`/classes/${subject}/${subject}${course.data.number}`}
-                class="flex items-center justify-between rounded-lg border border-wiki-border bg-wiki-surface p-4 no-underline hover:border-wiki-link transition-colors group"
+                href={`/classes/${subject}#${level}`}
+                class="inline-flex items-center gap-2 rounded-lg border border-wiki-border bg-wiki-surface px-4 py-2 text-sm font-medium text-wiki-text no-underline hover:border-wiki-link hover:text-wiki-link transition-colors"
               >
-                <div class="flex items-center gap-4">
-                  <div>
-                    <span class="font-mono text-sm text-illinois-orange">{subject} {course.data.number}</span>
-                    <span class="pl-2 text-wiki-text">{course.data.title}</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-4">
-                  <span class="text-xs text-wiki-muted">{course.data.credits} credits</span>
-                  <svg class="h-4 w-4 text-wiki-muted group-hover:text-wiki-link transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
+                {level}
+                <span class="rounded-full bg-wiki-border px-2 py-0.5 text-xs text-wiki-muted">
+                  {groupedCourses[level].length}
+                </span>
               </a>
             ))}
-          </div>
         </div>
-      ))}
-    </>
-  )}
+
+        {/* Courses by Level */}
+        {Object.keys(groupedCourses)
+          .sort()
+          .map((level) => (
+            <div class="mb-8">
+              <h2 id={level}>{level} Courses</h2>
+              <div class="space-y-2">
+                {groupedCourses[level].map((course: (typeof courses)[0]) => (
+                  <a
+                    href={`/classes/${subject}/${subject}${course.data.number}`}
+                    class="flex items-center justify-between rounded-lg border border-wiki-border bg-wiki-surface p-4 no-underline hover:border-wiki-link transition-colors group"
+                  >
+                    <div class="flex items-center gap-4">
+                      <div>
+                        <span class="font-mono text-sm text-illinois-orange">
+                          {subject} {course.data.number}
+                        </span>
+                        <span class="pl-2 text-wiki-text">
+                          {course.data.title}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                      <span class="text-xs text-wiki-muted">
+                        {course.data.credits} credits
+                      </span>
+                      <svg
+                        class="h-4 w-4 text-wiki-muted group-hover:text-wiki-link transition-colors"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+      </>
+    )
+  }
 </BaseLayout>
