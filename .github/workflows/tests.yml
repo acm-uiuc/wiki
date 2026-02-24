@@ -2,20 +2,16 @@
 # To finish configuring this workflow, ask the Infra Chairs to grant your repository
 # access to the "PAGES_API_TOKEN" org secret. Next, have them create a project in Cloudflare
 # Pages and set the repository variable "CLOUDFLARE_PROJECT_NAME" to that ID.
-name: 'Deployment'
+name: 'Testing'
 on:
-  push:
-    branches:
-      - 'main'
   pull_request:
     branches:
       - 'main'
 jobs:
-  deploy:
+  check_format:
+    name: Check codebase formatting
     permissions:
       contents: read
-      deployments: write
-      pull-requests: write
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -35,14 +31,7 @@ jobs:
             yarn-modules-${{ runner.arch }}-${{ runner.os }}-
       - name: Install dependencies
         run: yarn -D --frozen-lockfile
-      - name: Build website
-        run: yarn build
+      - name: Check codebase formatting
+        run: yarn format:check
         env:
           VITE_RUN_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
-      - name: Deploy to Cloudflare
-        uses: acm-uiuc/actions/.github/actions/cloudflare-pages-deploy@main
-        with:
-          build-directory: build/
-          project-name: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
-          account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-          pages-api-token: ${{ secrets.PAGES_API_TOKEN }}

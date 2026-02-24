@@ -1,20 +1,25 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
-import { SUBJECTS } from "../../lib/constants.ts";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { SUBJECTS } from '../../lib/constants.ts';
 
-const allClasses = await getCollection("classes");
+const allClasses = await getCollection('classes');
 
 // Count courses per subject
-const courseCounts = allClasses.reduce((acc: Record<string, number>, course) => {
-  const subject = course.data.subject;
-  acc[subject] = (acc[subject] || 0) + 1;
-  return acc;
-}, {});
+const courseCounts = allClasses.reduce(
+  (acc: Record<string, number>, course) => {
+    const subject = course.data.subject;
+    acc[subject] = (acc[subject] || 0) + 1;
+    return acc;
+  },
+  {}
+);
 ---
 
 <BaseLayout title="Classes">
-  <nav class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline">
+  <nav
+    class="mb-6 flex items-center gap-2 text-sm text-wiki-muted [&_a]:no-underline"
+  >
     <a href="/" class="hover:text-wiki-link">Home</a>
     <span>/</span>
     <span class="text-wiki-text">Classes</span>
@@ -26,9 +31,8 @@ const courseCounts = allClasses.reduce((acc: Record<string, number>, course) => 
   </div>
 
   <p>
-    Explore course information, reviews, and tips from students who have
-    taken these classes. Select a subject area below to see all available
-    courses.
+    Explore course information, reviews, and tips from students who have taken
+    these classes. Select a subject area below to see all available courses.
   </p>
 
   <div class="grid gap-4 sm:grid-cols-2">
@@ -49,7 +53,8 @@ const courseCounts = allClasses.reduce((acc: Record<string, number>, course) => 
                     {subject.name}
                   </h3>
                   <span class="text-xs text-wiki-muted">
-                    {courseCounts[code] || 0} {(courseCounts[code] || 0) === 1 ? 'course' : 'courses'}
+                    {courseCounts[code] || 0}{' '}
+                    {(courseCounts[code] || 0) === 1 ? 'course' : 'courses'}
                   </span>
                 </div>
               </div>
