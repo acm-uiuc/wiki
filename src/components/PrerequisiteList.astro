@@ -32,43 +32,96 @@ type ResolvedGroup =
   | { type: 'single'; item: ResolvedItem }
   | { type: 'or'; items: ResolvedItem[] };
 
-const resolvedGroups: ResolvedGroup[] = prerequisites.map((prereq) => {
-  if (Array.isArray(prereq)) {
+function resolveGroups(items: PrerequisiteItem[]): ResolvedGroup[] {
+  return items.map((prereq) => {
+    if (Array.isArray(prereq)) {
+      return {
+        type: 'or' as const,
+        items: prereq.map(resolvePrereq),
+      };
+    }
     return {
-      type: 'or' as const,
-      items: prereq.map(resolvePrereq),
+      type: 'single' as const,
+      item: resolvePrereq(prereq),
     };
-  }
-  return {
-    type: 'single' as const,
-    item: resolvePrereq(prereq),
-  };
-});
+  });
+}
+
+const resolvedGroups = resolveGroups(prerequisites);
+const resolvedCoreqs = resolveGroups(corequisites);
 ---
 
-<div class="flex flex-wrap items-center gap-2 text-sm">
-  {
-    resolvedGroups.map((group, groupIndex) => (
-      <>
-        {groupIndex > 0 && <span class="text-wiki-muted font-medium">and</span>}
-        {group.type === 'single' ? (
-          <PrereqBadge
-            original={group.item.parsed.original}
-            link={group.item.link}
-          />
-        ) : (
-          <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-border bg-wiki-surface/50 px-2 py-1">
-            {group.items.map((item, itemIndex) => (
-              <>
-                {itemIndex > 0 && (
-                  <span class="text-wiki-muted text-xs">or</span>
-                )}
-                <PrereqBadge original={item.parsed.original} link={item.link} />
-              </>
-            ))}
-          </span>
-        )}
-      </>
-    ))
-  }
-</div>
+{/* Prerequisites */}
+{
+  resolvedGroups.length > 0 && (
+    <div class="flex flex-wrap items-center gap-2 text-sm">
+      {resolvedGroups.map((group, groupIndex) => (
+        <>
+          {groupIndex > 0 && (
+            <span class="text-wiki-muted font-medium">and</span>
+          )}
+          {group.type === 'single' ? (
+            <PrereqBadge
+              original={group.item.parsed.original}
+              link={group.item.link}
+            />
+          ) : (
+            <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-border bg-wiki-surface/50 px-2 py-1">
+              {group.items.map((item, itemIndex) => (
+                <>
+                  {itemIndex > 0 && (
+                    <span class="text-wiki-muted text-xs">or</span>
+                  )}
+                  <PrereqBadge
+                    original={item.parsed.original}
+                    link={item.link}
+                  />
+                </>
+              ))}
+            </span>
+          )}
+        </>
+      ))}
+    </div>
+  )
+}
+
+{/* Corequisites */}
+{
+  resolvedCoreqs.length > 0 && (
+    <div class="mt-3">
+      <span class="text-sm font-medium text-wiki-muted">Corequisites:</span>
+      <div class="flex flex-wrap items-center gap-2 text-sm mt-1">
+        {resolvedCoreqs.map((group, groupIndex) => (
+          <>
+            {groupIndex > 0 && (
+              <span class="text-wiki-muted font-medium">and</span>
+            )}
+            {group.type === 'single' ? (
+              <PrereqBadge
+                original={group.item.parsed.original}
+                link={group.item.link}
+                variant="coreq"
+              />
+            ) : (
+              <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-link/30 bg-wiki-link/5 px-2 py-1">
+                {group.items.map((item, itemIndex) => (
+                  <>
+                    {itemIndex > 0 && (
+                      <span class="text-wiki-muted text-xs">or</span>
+                    )}
+                    <PrereqBadge
+                      original={item.parsed.original}
+                      link={item.link}
+                      variant="coreq"
+                    />
+                  </>
+                ))}
+              </span>
+            )}
+          </>
+        ))}
+      </div>
+    </div>
+  )
+}
