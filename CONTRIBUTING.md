@@ -46,7 +46,8 @@ number: 124
 credits: 3
 instructor: 'Geoffrey Challen' # optional, primary instructor
 description: 'Official course description from the course catalog'
-prerequisites: ['CS 101', 'MATH 220'] # optional, list prerequisite courses
+prerequisites: ['MATH 220', ['CS 101', 'CS 104']] # optional, list prerequisite courses
+corequisites: ['PHYS 101'] # optional, list corequisite courses
 tags: ['core', 'programming'] # optional, relevant tags
 section: '' # optional, for special topics courses
 ---
@@ -173,6 +174,7 @@ category: 'Tech' # optional, for grouping related guides
 - Use headings hierarchically: `##` for main sections, `###` for subsections
 - Use code blocks with language tags for code snippets
 - Use bullet points for lists of items
+- Use <CourseLink code="XC 101"/> object in MDX to link to course article/course website
 
 ### Images
 

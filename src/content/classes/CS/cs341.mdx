@@ -1,0 +1,81 @@
+---
+title: 'CS 341 - System Programming'
+subject: 'CS'
+number: 341
+credits: 3
+description: 'Basics of system programming, including POSIX processes, process control, inter-process communication, synchronization, signals, simple memory management, file I/O and directories, shell programming, socket network programming, RPC programming in distributed systems, basic security mechanisms, and standard tools for systems programming such as debugging tools.'
+instructor: Lawrence Angrave
+prerequisites: ['CS 225', 'CS 233]
+tags: ['core']
+---
+
+This is the standard systems programming course in the CS major. The class is comprised of in-person lectures, labs, machine problems, and exams. The course has a custom autograder system called Broadway-On-Demand.
+
+For CS + X majors, students have the option to take either <CourseLink code="CS 233"/> and <CourseLink code="CS 341"/> or <CourseLink code="CS 340"/>.
+
+## Topics Covered
+
+- C Programming
+- Asynchronous Programming
+  - Processes
+  - Threads (fork-exec-wait)
+  - Signals
+  - Semaphores/Mutexes
+  - Condition Variables
+  - Dealing with Race Conditions/Deadlock
+- Memory and Virtual Memory
+  - Page tables
+  - IPC/Pipes
+  - Allocators and related optimisations
+  - mmap
+- Scheduling
+- Files and Filesystems
+  - Blocks and Inodes
+  - Permissions
+  - ext, BtrFS, ZFS
+- Networking
+  - TCP/UDP
+  - Epoll
+  - RPCs
+
+## Resources
+
+Office hours are hosted as specified in the syllabus.
+The textbook for the course is (free to view)[https://cs341.cs.illinois.edu/coursebook]. The Linux man pages will be immensely helpful throughout your CS341 journey.
+
+## Developer's Commentary
+
+### This course is hard and time-consuming.
+
+This course will have you wrestle with the messy, unkind land of systems programming. Some of the MPs, such as Nonstop Networking, Malloc, and Shell, can be extremely time-consuming. _Please_ start these MPs early; many students can testify that banging your head against the wall while trying to parse through `gdb`'s output and your thousand-line print-debugging log at 3am is a distinctly unpleasent experience.
+
+Asynchronous programming is a topic covered in this course that many students find particularly challenging. Up to this point, the large majority of the programming you do is strictly synchronous- the code you write will be executed exactly in top down order. However, when you have multiple threads all executing and modifying things at the same time, race conditions and other subtle correctness errors can appear and disappear depending on your luck. Learning to wrangle with an asynchronous programming mindset is immensely valuable and necessary for fields like distributed systems.
+
+### The content in this course is extremely important
+
+I would say this course, alongside <CourseLink code="CS 374"/> and <CourseLink code="CS 233"/>, are perhaps the most important courses for the average software engineer. Our code does not execute in a magical black box;it is imperative that we understand what happens under the hood when we execute a block of code. Between CS 341 and CS 233, you will learn how your code interacts with the hardware that the computer is running on. Having this understanding allows us to write code that is not just efficient in theory (e.g. has a low algorithmic complexity, uses efficient data structures), but also in practice (e.g. has memory access patterns that behave will with caching behaviour).
+
+## Related Courses
+
+- <CourseLink code="ECE 391" />: As a whole, ECE 391 covers most of the content
+  in CS 341 and more. There is a greater emphasis on the bridge between software
+  and hardware (interrupts, device drivers, etc). You also learn RISC-V assembly
+  instead of C. The final project is to build an OS. CS 341 is hard. ECE 391 is
+  *really* hard (but also covered a lot of cool content).
+- <CourseLink code="CS 423" /> (Operation Systems): If you want to learn more
+  about operation systems, take this course.
+- If enjoyed the asynchronous programming part of this course, consider taking:
+  - <CourseLink code="CS 425" /> (Distributed Systems): Discusses distributed
+    membership protocols (Gossip, SWIM), processing frameworks (Mapreduce,
+    Hadoop), P2P systems (Gnutella), KV stores (Cassandra, HBase), CAP Theorem,
+    Consensus Algorithms, Leader Election, Mutual Exclusion, Distributed File
+    Systems, and Stream Processing. MPs are implementations of concepts found in
+    lectures (and require very careful treatment of asynchrony).
+  - <CourseLink code="CS 483" /> (Applied Parallel Programming): Essentially a
+    CUDA programming course, with content on efficient CUDA programming and some
+    parallel algorithms (Scan, Kogge-Stone, Brent-Kung, Matrix Multiplication,
+    Histogram). Final project is implementing parts of GPT.
+  - <CourseLink code="CS 484" /> (Parallel Programming): Investigation into
+    classic efficient parallel programming paradigms/frameworks (OpenMP,
+    Pthreads, MPI, Charm++) and parallel algorithms (Parallel Prefix, Sorting,
+    Matrix Multiplication, Simulations).
