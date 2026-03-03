@@ -12,6 +12,10 @@ const classesCollection = defineCollection({
     credits: z.number(),
     instructor: z.string().optional().default('Unknown'),
     description: z.string(),
+    corequisites: z
+      .array(z.union([z.string(), z.array(z.string())]))
+      .optional()
+      .default([]),
     prerequisites: z
       .array(z.union([z.string(), z.array(z.string())]))
       .optional()

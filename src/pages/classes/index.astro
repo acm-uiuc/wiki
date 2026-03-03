@@ -5,7 +5,7 @@ import { SUBJECTS } from '../../lib/constants.ts';
 
 const allClasses = await getCollection('classes');
 
-// Count courses per subject
+// Discover subjects and count courses from actual content
 const courseCounts = allClasses.reduce(
   (acc: Record<string, number>, course) => {
     const subject = course.data.subject;
@@ -14,6 +14,16 @@ const courseCounts = allClasses.reduce(
   },
   {}
 );
+
+// Build subject list from discovered content, with metadata from constants if available
+const subjects = Object.keys(courseCounts)
+  .sort()
+  .map((code) => ({
+    code,
+    name: SUBJECTS[code]?.name ?? code,
+    description: SUBJECTS[code]?.description ?? '',
+    count: courseCounts[code],
+  }));
 ---
 
 <BaseLayout title="Classes">
@@ -37,30 +47,31 @@ const courseCounts = allClasses.reduce(
 
   <div class="grid gap-4 sm:grid-cols-2">
     {
-      Object.entries(SUBJECTS).map(([code, subject]) => (
+      subjects.map((subject) => (
         <a
-          href={`/classes/${code}`}
+          href={`/classes/${subject.code}`}
           class="block rounded-xl border border-wiki-border bg-wiki-surface p-6 no-underline hover:border-illinois-orange/50 transition-colors group"
         >
           <div class="flex items-start justify-between">
             <div class="flex-1">
               <div class="flex items-center gap-3 mb-2">
                 <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-illinois-orange/20 text-sm font-bold text-illinois-orange font-mono">
-                  {code}
+                  {subject.code}
                 </span>
                 <div>
                   <h3 class="font-display text-lg font-semibold text-wiki-text group-hover:text-illinois-orange transition-colors mt-0 mb-0 border-0 pb-0">
                     {subject.name}
                   </h3>
                   <span class="text-xs text-wiki-muted">
-                    {courseCounts[code] || 0}{' '}
-                    {(courseCounts[code] || 0) === 1 ? 'course' : 'courses'}
+                    {subject.count} {subject.count === 1 ? 'course' : 'courses'}
                   </span>
                 </div>
               </div>
-              <p class="text-wiki-muted text-sm mt-3 mb-0">
-                {subject.description}
-              </p>
+              {subject.description && (
+                <p class="text-wiki-muted text-sm mt-3 mb-0">
+                  {subject.description}
+                </p>
+              )}
             </div>
             <svg
               class="h-5 w-5 text-wiki-muted group-hover:text-illinois-orange transition-colors mt-2"

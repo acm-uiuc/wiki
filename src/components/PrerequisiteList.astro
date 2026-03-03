@@ -10,14 +10,13 @@ import PrereqBadge from './PrereqBadge.astro';
 
 interface Props {
   prerequisites: PrerequisiteItem[];
+  corequisites?: PrerequisiteItem[];
 }
 
-const { prerequisites } = Astro.props;
+const { prerequisites, corequisites = [] } = Astro.props;
 
-// Build index of existing courses at build time
 const courseIndex = await buildCourseIndex();
 
-// Resolve a single prerequisite string
 function resolvePrereq(prereq: string) {
   const parsed = parsePrerequisite(prereq);
   const link = getCourseLink(parsed, courseIndex);
@@ -33,43 +32,137 @@ type ResolvedGroup =
   | { type: 'single'; item: ResolvedItem }
   | { type: 'or'; items: ResolvedItem[] };
 
-const resolvedGroups: ResolvedGroup[] = prerequisites.map((prereq) => {
-  if (Array.isArray(prereq)) {
+function resolveGroups(items: PrerequisiteItem[]): ResolvedGroup[] {
+  return items.map((prereq) => {
+    if (Array.isArray(prereq)) {
+      return {
+        type: 'or' as const,
+        items: prereq.map(resolvePrereq),
+      };
+    }
     return {
-      type: 'or' as const,
-      items: prereq.map(resolvePrereq),
+      type: 'single' as const,
+      item: resolvePrereq(prereq),
     };
-  }
-  return {
-    type: 'single' as const,
-    item: resolvePrereq(prereq),
-  };
-});
+  });
+}
+
+const resolvedGroups = resolveGroups(prerequisites);
+const resolvedCoreqs = resolveGroups(corequisites);
 ---
 
-<div class="flex flex-wrap items-center gap-2 text-sm">
+<div class="space-y-3">
+  {/* Prerequisites */}
   {
-    resolvedGroups.map((group, groupIndex) => (
-      <>
-        {groupIndex > 0 && <span class="text-wiki-muted font-medium">and</span>}
-        {group.type === 'single' ? (
-          <PrereqBadge
-            original={group.item.parsed.original}
-            link={group.item.link}
-          />
-        ) : (
-          <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-border bg-wiki-surface/50 px-2 py-1">
-            {group.items.map((item, itemIndex) => (
-              <>
-                {itemIndex > 0 && (
-                  <span class="text-wiki-muted text-xs">or</span>
-                )}
-                <PrereqBadge original={item.parsed.original} link={item.link} />
-              </>
-            ))}
-          </span>
-        )}
-      </>
-    ))
+    resolvedGroups.length > 0 && (
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-illinois-orange/10 px-2.5 py-1.5 text-xs font-semibold text-illinois-orange ring-1 ring-inset ring-illinois-orange/20"
+          title="Courses you must complete before enrolling in this course"
+        >
+          <svg
+            class="h-3 w-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          Prerequisites
+        </span>
+        <div class="flex flex-wrap items-center gap-2 text-sm">
+          {resolvedGroups.map((group, groupIndex) => (
+            <>
+              {groupIndex > 0 && (
+                <span class="text-wiki-muted font-medium">and</span>
+              )}
+              {group.type === 'single' ? (
+                <PrereqBadge
+                  original={group.item.parsed.original}
+                  link={group.item.link}
+                />
+              ) : (
+                <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-border bg-wiki-surface/50 px-2 py-1">
+                  {group.items.map((item, itemIndex) => (
+                    <>
+                      {itemIndex > 0 && (
+                        <span class="text-wiki-muted text-xs">or</span>
+                      )}
+                      <PrereqBadge
+                        original={item.parsed.original}
+                        link={item.link}
+                      />
+                    </>
+                  ))}
+                </span>
+              )}
+            </>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {/* Corequisites */}
+  {
+    resolvedCoreqs.length > 0 && (
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-wiki-link/10 px-2.5 py-1.5 text-xs font-semibold text-wiki-link ring-1 ring-inset ring-wiki-link/20"
+          title="Courses you must take at the same time as this course, or have already completed"
+        >
+          <svg
+            class="h-3 w-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+            />
+          </svg>
+          Corequisites
+        </span>
+        <div class="flex flex-wrap items-center gap-2 text-sm">
+          {resolvedCoreqs.map((group, groupIndex) => (
+            <>
+              {groupIndex > 0 && (
+                <span class="text-wiki-muted font-medium">and</span>
+              )}
+              {group.type === 'single' ? (
+                <PrereqBadge
+                  original={group.item.parsed.original}
+                  link={group.item.link}
+                  variant="coreq"
+                />
+              ) : (
+                <span class="inline-flex items-center gap-1.5 rounded-lg border border-wiki-link/30 bg-wiki-link/5 px-2 py-1">
+                  {group.items.map((item, itemIndex) => (
+                    <>
+                      {itemIndex > 0 && (
+                        <span class="text-wiki-muted text-xs">or</span>
+                      )}
+                      <PrereqBadge
+                        original={item.parsed.original}
+                        link={item.link}
+                        variant="coreq"
+                      />
+                    </>
+                  ))}
+                </span>
+              )}
+            </>
+          ))}
+        </div>
+      </div>
+    )
   }
 </div>

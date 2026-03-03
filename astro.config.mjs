@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import { remarkModifiedTime } from './remark-modified-time.mjs';
+import AutoImport from 'astro-auto-import';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
@@ -13,7 +14,14 @@ export default defineConfig({
   },
   site: 'https://illinoiscs.wiki',
   outDir: './build',
-  integrations: [mdx(), sitemap(), compress()],
+  integrations: [
+    AutoImport({
+      imports: ['./src/components/CourseLink.astro'],
+    }),
+    mdx(),
+    sitemap(),
+    compress(),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
