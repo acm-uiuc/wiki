@@ -175,6 +175,7 @@ category: 'Tech' # optional, for grouping related guides
 - Use code blocks with language tags for code snippets
 - Use bullet points for lists of items
 - Use <CourseLink code="XC 101"/> object in MDX to link to course article/course website
+- Run `yarn spellcheck` to spellcheck all markdown files
 
 ### Images
 
