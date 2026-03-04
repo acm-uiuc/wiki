@@ -35,3 +35,5 @@ jobs:
         run: yarn format:check
         env:
           VITE_RUN_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+      - name: Spell check
+        run: yarn spellcheck
