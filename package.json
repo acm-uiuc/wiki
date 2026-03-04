@@ -12,7 +12,8 @@
     "postinstall": "npm run setup && husky",
     "prepare": "husky || true",
     "preview": "astro preview",
-    "setup": "git config blame.ignoreRevsFile .git-blame-ignore-revs"
+    "setup": "git config blame.ignoreRevsFile .git-blame-ignore-revs",
+    "spellcheck": "cspell '**/*.{md,mdx}'"
   },
   "lint-staged": {
     "*.{ts,tsx,astro,js,css,md,mdx,json}": [
@@ -40,6 +41,7 @@
     "@typescript-eslint/parser": "^8.54.0",
     "astro-eslint-parser": "^1.2.2",
     "astro-icon": "^1.1.5",
+    "cspell": "^9.7.0",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.5.0",
