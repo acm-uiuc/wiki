@@ -1,0 +1,20 @@
+{
+  "version": "0.2",
+  "language": "en-US",
+  "files": ["**/*.md", "**/*.mdx"],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": ".cspell/illinoiscswiki-dictionary.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["project-words"],
+  "ignorePaths": [
+    "node_modules",
+    "yarn.lock",
+    "package-lock.json",
+    "dist",
+    ".git"
+  ]
+}
