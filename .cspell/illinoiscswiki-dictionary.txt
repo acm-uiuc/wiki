@@ -8,6 +8,7 @@ CBTF
 Cedre
 Challen
 Chebyshev
+Chicagoland
 corequisite
 corequisites
 cplusplus
@@ -15,6 +16,7 @@ CUDA
 Epoll
 examlet
 examlets
+Flixbus
 frontmatter
 Gnutella
 gsuite
@@ -27,6 +29,7 @@ learncs
 Malloc
 Mapreduce
 Mattox
+Metra
 Midha
 mmap
 Monge
